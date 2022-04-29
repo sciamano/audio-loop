@@ -10,9 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: x64
-        qt-version: '6.3.0'
-        qt-arch: win64_msvc2019_64
+        platform: [x64]
+        qt-version: ['6.3.0']
+        qt-arch: [win64_msvc2019_64]
     steps:
     - uses: actions/checkout@v2
     - uses: jurplel/install-qt-action@v2.11.1
@@ -23,8 +23,10 @@ jobs:
     - uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ matrix.platform }}
-    run: |
-      INSTALL_PATH=app-target
-      echo "INSTALL_PATH=$INSTALL_PATH" >> $GITHUB_ENV
-      cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH
-    run: cmake --build build --target install
+    - name: configre
+      run: |
+        INSTALL_PATH=app-target
+        echo "INSTALL_PATH=$INSTALL_PATH" >> $GITHUB_ENV
+        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH
+    - name: build
+      run: cmake --build build --target install
