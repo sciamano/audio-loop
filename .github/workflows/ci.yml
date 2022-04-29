@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   windows:
     runs-on: windows-latest
@@ -19,6 +23,7 @@ jobs:
       with:
         version: ${{ matrix.qt-version }}
         arch: ${{ matrix.qt-arch }}
+        mirror: https://ftp.fau.de/qtproject/
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: ilammy/msvc-dev-cmd@v1
       with:
