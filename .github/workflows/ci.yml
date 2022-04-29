@@ -23,10 +23,10 @@ jobs:
     - uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ matrix.platform }}
-    - name: configre
+    - name: configure
       run: |
         INSTALL_PATH=app-target
-        echo "INSTALL_PATH=$INSTALL_PATH" >> $GITHUB_ENV
+        echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
         cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH
     - name: build
       run: cmake --build build --target install
