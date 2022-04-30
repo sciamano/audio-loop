@@ -15,14 +15,12 @@ jobs:
       fail-fast: false
       matrix:
         platform: [x64]
-        qt-version: ['6.3.0']
-        qt-arch: [win64_msvc2019_64]
+        qt-version: ['6.3.0' '6.2.4' '5.15.2']
     steps:
     - uses: actions/checkout@v2
-    - uses: jurplel/install-qt-action@v2.11.1
+    - uses: jurplel/install-qt-action@v2
       with:
         version: ${{ matrix.qt-version }}
-        arch: ${{ matrix.qt-arch }}
         mirror: https://ftp.fau.de/qtproject/
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: ilammy/msvc-dev-cmd@v1
@@ -32,6 +30,6 @@ jobs:
       run: |
         INSTALL_PATH=app-target
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
-        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH
+        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -B build
     - name: build
       run: cmake --build build --target install
