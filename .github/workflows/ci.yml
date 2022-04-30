@@ -21,7 +21,7 @@ jobs:
     - uses: jurplel/install-qt-action@v2
       with:
         version: ${{ matrix.qt-version }}
-        modules: 'qtmultimedia'
+        modules: 'all'
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: ilammy/msvc-dev-cmd@v1
       with:
