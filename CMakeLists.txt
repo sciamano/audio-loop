@@ -40,6 +40,6 @@ install(TARGETS ${APP_NAME})
 if(WIN32)
     install(CODE "
         message(STATUS \"run windeployqt at \${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR}\")
-        execute_process(COMMAND \"${Qt6_BinDir}/windeployqt\" ${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR})
+        execute_process(COMMAND \"${Qt6_Dir}/bin/windeployqt.exe\" --verbose 3 \${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR})
     ")
 endif(WIN32)

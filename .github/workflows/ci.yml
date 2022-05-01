@@ -36,7 +36,6 @@ jobs:
     - name: post-check
       run: |
         ls -laR $INSTALL_PATH
-        tree $INSTALL_PATH
         PACKAGE_NAME=audio-loop-win64.zip
         7z a package/$PACKAGE_NAME $INSTALL_PATH
         echo "PACKAGE_NAME=$PACKAGE_NAME" >>$GITHUB_ENV
