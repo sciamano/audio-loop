@@ -1,9 +1,9 @@
 #include "track.h"
 
-#include <QAudioDevice>
-#include <QAudioFormat>
+//#include <QAudioDevice>
+//#include <QAudioFormat>
 #include <QLocale>
-#include <QMediaDevices>
+//#include <QMediaDevices>
 #include <QUrl>
 
 LoopBuffer::LoopBuffer(QObject* parent) : QBuffer(parent)
@@ -44,44 +44,44 @@ qint64 LoopBuffer::current() const
 
 Track::Track(QObject* parent) : QObject(parent)
 {
-  format.setChannelCount(2);
-  format.setSampleRate(48000);
-  format.setSampleFormat(QAudioFormat::Int16);
+//  format.setChannelCount(2);
+//  format.setSampleRate(48000);
+//  format.setSampleFormat(QAudioFormat::Int16);
 
-  QAudioDevice info(QMediaDevices::defaultAudioOutput());
-  if (!info.isFormatSupported(format))
-  {
-    format = info.preferredFormat();
-    qWarning() << "Raw audio format not supported by backend, replacing by preferredFormat" << format;
-  }
-  qDebug() << "format" << format;
+//  QAudioDevice info(QMediaDevices::defaultAudioOutput());
+//  if (!info.isFormatSupported(format))
+//  {
+//    format = info.preferredFormat();
+//    qWarning() << "Raw audio format not supported by backend, replacing by preferredFormat" << format;
+//  }
+//  qDebug() << "format" << format;
 
-  decoder = new QAudioDecoder(this);
-  decoder->setAudioFormat(format);
-  connect(decoder, &QAudioDecoder::bufferReady, this, &Track::copyFromBuffer);
-  connect(decoder, &QAudioDecoder::finished, this, &Track::decodingFinished);
+//  decoder = new QAudioDecoder(this);
+//  decoder->setAudioFormat(format);
+//  connect(decoder, &QAudioDecoder::bufferReady, this, &Track::copyFromBuffer);
+//  connect(decoder, &QAudioDecoder::finished, this, &Track::decodingFinished);
 
   loopBuffer = new LoopBuffer(this);
 
-  audio = new QAudioSink(info, format);
+//  audio = new QAudioSink(info, format);
 }
 
 void Track::playFile(const QString& fileName)
 {
   qDebug() << "filename:" << fileName;
 
-  audio->stop();
+//  audio->stop();
   loopBuffer->close();
   loopBuffer->buffer().clear();
 
-  decoder->setSource(QUrl::fromLocalFile(fileName));
-  decoder->start();
+//  decoder->setSource(QUrl::fromLocalFile(fileName));
+//  decoder->start();
 }
 
 void Track::copyFromBuffer()
 {
-  QAudioBuffer audioBuffer = decoder->read();
-  loopBuffer->buffer().append(audioBuffer.constData<char>(), audioBuffer.byteCount());
+//  QAudioBuffer audioBuffer = decoder->read();
+//  loopBuffer->buffer().append(audioBuffer.constData<char>(), audioBuffer.byteCount());
 }
 
 void Track::decodingFinished()
@@ -91,23 +91,23 @@ void Track::decodingFinished()
 
   qDebug() << "start playing" << QLocale().formattedDataSize(loopBuffer->size());
   loopBuffer->open(QIODevice::ReadOnly);
-  audio->start(loopBuffer);
+//  audio->start(loopBuffer);
 }
 
 void Track::pausePlay()
 {
-  if (audio->state() == QAudio::ActiveState)
-  {
-    qDebug() << "pause playing" << QLocale().formattedDataSize(loopBuffer->current());
-    audio->suspend();
-  }
+//  if (audio->state() == QAudio::ActiveState)
+//  {
+//    qDebug() << "pause playing" << QLocale().formattedDataSize(loopBuffer->current());
+//    audio->suspend();
+//  }
 }
 
 void Track::continuePlay()
 {
-  if (audio->state() == QAudio::SuspendedState)
-  {
-    qDebug() << "continue playing";
-    audio->resume();
-  }
+//  if (audio->state() == QAudio::SuspendedState)
+//  {
+//    qDebug() << "continue playing";
+//    audio->resume();
+//  }
 }

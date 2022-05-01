@@ -26,7 +26,7 @@ endif()
 set(INSTALL_DIR "${INSTALL_DIR}/${APP_NAME}")
 message(STATUS "installation directory: ${INSTALL_DIR}")
 
-find_package(Qt6 COMPONENTS Multimedia)
+#find_package(Qt6 COMPONENTS Multimedia)
 find_package(Qt6 COMPONENTS Widgets)
 
 qt_add_executable(${APP_NAME}
@@ -43,7 +43,7 @@ set_target_properties(${APP_NAME} PROPERTIES
 )
 
 target_link_libraries(${APP_NAME} PUBLIC
-    Qt::Multimedia
+#    Qt::Multimedia
     Qt::Widgets
 )
 
