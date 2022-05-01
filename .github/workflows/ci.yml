@@ -30,6 +30,18 @@ jobs:
       run: |
         INSTALL_PATH=app-target
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
-        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -B build
+        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -GNinja -B build
     - name: build
       run: cmake --build build --target install
+    - name: post-check
+      run: |
+        ls -laR $INSTALL_PATH
+        tree $INSTALL_PATH
+        PACKAGE_NAME=audio-loop-win64.zip
+        7z a package/$PACKAGE_NAME $INSTALL_PATH
+        echo "PACKAGE_NAME=$PACKAGE_NAME" >>$GITHUB_ENV
+    - name: upload artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: '${{ env.PACKAGE_NAME }}'
+        path: package/*
