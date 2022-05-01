@@ -15,17 +15,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(NOT DEFINED INSTALL_DIR)
-    if(DEFINED ENV{USERPROFILE})
-        set(INSTALL_DIR "$ENV{USERPROFILE}")
-    else()
-        set(INSTALL_DIR "$ENV{HOME}")
-    endif()
-    set(INSTALL_DIR "${INSTALL_DIR}/local")
-endif()
-set(INSTALL_DIR "${INSTALL_DIR}/${APP_NAME}")
-message(STATUS "installation directory: ${INSTALL_DIR}")
-
 #find_package(Qt6 COMPONENTS Multimedia)
 find_package(Qt6 COMPONENTS Widgets)
 
@@ -47,8 +36,10 @@ target_link_libraries(${APP_NAME} PUBLIC
     Qt::Widgets
 )
 
-install(TARGETS ${APP_NAME}
-    RUNTIME DESTINATION "${INSTALL_DIR}"
-    BUNDLE DESTINATION "${INSTALL_DIR}"
-    LIBRARY DESTINATION "${INSTALL_DIR}"
-)
+install(TARGETS ${APP_NAME})
+if(WIN32)
+    install(CODE "
+        message(STATUS \"run windeployqt at \${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR}\")
+        execute_process(COMMAND \"${Qt6_BinDir}/windeployqt\" ${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR})
+    ")
+endif(WIN32)
