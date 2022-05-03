@@ -37,6 +37,10 @@ target_link_libraries(${APP_NAME} PUBLIC
 )
 
 if(WIN32)
+    get_target_property(_qmake_executable Qt::qmake IMPORTED_LOCATION)
+    get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
+    find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
+
     message(STATUS "windeploy: ${WINDEPLOYQT_EXECUTABLE}")
     message(STATUS "install prefix: ${CMAKE_INSTALL_PREFIX}")
 
