@@ -47,5 +47,5 @@ if(WIN32)
     message(STATUS ${APP_TARGET_DIR})
 
     install(TARGETS ${APP_NAME} DESTINATION ${APP_TARGET_DIR})
-    install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" \"${APP_TARGET_DIR}\")")
+    install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" --verbose 3 \"${APP_TARGET_DIR}\")")
 endif(WIN32)
