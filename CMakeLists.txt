@@ -36,10 +36,16 @@ target_link_libraries(${APP_NAME} PUBLIC
     Qt::Widgets
 )
 
-install(TARGETS ${APP_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 if(WIN32)
-    install(CODE "
-        message(STATUS \"run windeployqt at \${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR}\")
-        execute_process(COMMAND \"$ENV{Qt6_DIR}/bin/windeployqt.exe\" --verbose 3 \${CMAKE_INSTALL_PREFIX}\${CMAKE_INSTALL_BINDIR})
-    ")
+    message(STATUS ${WINDEPLOYQT_EXECUTABLE})
+    message(STATUS ${CMAKE_INSTALL_PREFIX})
+
+    set(CMAKE_INSTALL_BINDIR "")
+    message(STATUS ${CMAKE_INSTALL_BINDIR})
+
+    set(APP_TARGET_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+    message(STATUS ${APP_TARGET_DIR})
+
+    install(TARGETS ${APP_NAME} DESTINATION ${APP_TARGET_DIR})
+    install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" \"${APP_TARGET_DIR}\")")
 endif(WIN32)
