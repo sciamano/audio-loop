@@ -37,14 +37,14 @@ target_link_libraries(${APP_NAME} PUBLIC
 )
 
 if(WIN32)
-    message(STATUS ${WINDEPLOYQT_EXECUTABLE})
-    message(STATUS ${CMAKE_INSTALL_PREFIX})
+    message(STATUS "windeploy: ${WINDEPLOYQT_EXECUTABLE}")
+    message(STATUS "install prefix: ${CMAKE_INSTALL_PREFIX}")
 
     set(CMAKE_INSTALL_BINDIR "")
-    message(STATUS ${CMAKE_INSTALL_BINDIR})
+    message(STATUS "bin dir: ${CMAKE_INSTALL_BINDIR}")
 
     set(APP_TARGET_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
-    message(STATUS ${APP_TARGET_DIR})
+    message(STATUS "target  dir: ${APP_TARGET_DIR}")
 
     install(TARGETS ${APP_NAME} DESTINATION ${APP_TARGET_DIR})
     install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" --verbose 3 \"${APP_TARGET_DIR}\")")
