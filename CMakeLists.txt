@@ -32,7 +32,7 @@ set_target_properties(${APP_NAME} PROPERTIES
 )
 
 target_link_libraries(${APP_NAME} PUBLIC
-#    Qt::Multimedia
+    Qt::Multimedia
     Qt::Widgets
 )
 
