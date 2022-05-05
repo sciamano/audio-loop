@@ -22,6 +22,7 @@ jobs:
       with:
         version: ${{ matrix.qt-version }}
         modules: 'qtmultimedia'
+        aqtversion: '==2.1.0'
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: ilammy/msvc-dev-cmd@v1
       with:
