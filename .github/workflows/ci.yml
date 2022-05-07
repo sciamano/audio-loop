@@ -41,5 +41,5 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        name: '${{ env.PACKAGE_NAME }}'
-        path: package/${{ env.PACKAGE_NAME }}
+        name: '${{ env.INSTALL_PATH }}'
+        path: ${{ env.INSTALL_PATH }}/*
