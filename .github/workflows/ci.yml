@@ -61,7 +61,7 @@ jobs:
         aqt install-qt linux desktop 6.3.0 gcc_64 -m qtmultimedia -O $Qt6_DIR
     - name: configure
       run: |
-        cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR/gcc_64 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
     - name: build
       run: |
         INSTALL_PATH=linux-${{ matrix.build-type }}-${GITHUB_SHA:0:8}
