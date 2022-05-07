@@ -58,15 +58,16 @@ jobs:
         version: ${{ matrix.qt-version }}
         modules: 'qtmultimedia'
         aqtversion: '==2.1.0'
-    - uses: seanmiddleditch/gha-setup-ninja@v3
     - name: configure
+      run: |
+        cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
+    - name: build
       run: |
         INSTALL_PATH=linux-${{ matrix.build-type }}-${GITHUB_SHA:0:8}
         echo $INSTALL_PATH
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
-        cmake -DDESTDIR=$INSTALL_PATH -DCMAKE_INSTALL_PREFIX==/usr -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
-    - name: build
-      run: cmake --build build --target install
+        cd build
+        make DESTDIR=$INSTALL_PATH install
     - name: linuxdeploy
       run: |
         pwd
