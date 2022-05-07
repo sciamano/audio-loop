@@ -16,8 +16,9 @@ jobs:
       matrix:
         platform: [x64]
         qt-version: ['6.3.0']
+        build-type: [Debug, Release]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: jurplel/install-qt-action@v2
       with:
         version: ${{ matrix.qt-version }}
@@ -29,17 +30,14 @@ jobs:
         arch: ${{ matrix.platform }}
     - name: configure
       run: |
-        INSTALL_PATH=app-target
+        INSTALL_PATH=${{ matrix.build-type }}-${GITHUB_SHA:0:8}
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
-        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=Release -GNinja -B build
+        cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
     - name: build
       run: cmake --build build --target install
     - name: post-check
       run: |
         ls -laR $INSTALL_PATH
-        PACKAGE_NAME=audio-loop-win64.zip
-        7z a package/$PACKAGE_NAME $INSTALL_PATH
-        echo "PACKAGE_NAME=$PACKAGE_NAME" >>$GITHUB_ENV
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
