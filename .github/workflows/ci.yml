@@ -79,6 +79,7 @@ jobs:
         #`which qmake6`
         #ls -l $Qt6_DIR/bin
         echo $HOME
+        mkdir -p $HOME/.local/bin/
         ls -l $HOME/.local/bin/
         ln -s `which qmake6` $HOME/.local/bin/qmake
         ls -l $HOME/.local/bin/
