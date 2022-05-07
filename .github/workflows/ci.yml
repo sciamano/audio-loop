@@ -53,11 +53,12 @@ jobs:
         build-type: [Debug, Release]
     steps:
     - uses: actions/checkout@v3
-    - uses: jurplel/install-qt-action@v2
-      with:
-        version: ${{ matrix.qt-version }}
-        modules: 'qtmultimedia'
-        aqtversion: '==2.1.0'
+    - name: install Qt
+      run: |
+        pip install aqtinstall
+        Qt6_DIR=$HOME/Qt
+        echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
+        aqt install-qt linux desktop 6.3.0 gcc_64 -m qtmultimedia -O $Qt6_DIR
     - name: configure
       run: |
         cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
@@ -80,6 +81,7 @@ jobs:
         mkdir -p $HOME/bin/
         ln -s `which qmake6` $HOME/bin/qmake
         export PATH=$HOME/bin/:$PATH
+        export LD_LIBRARY_PATH=$Qt6_DIR/gcc_64/lib:$LD_LIBRARY_PATH
         linuxdeploy-x86_64.AppImage --appdir $INSTALL_PATH --plugin qt --output appimage
     - name: post-check
       run: |
