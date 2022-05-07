@@ -36,6 +36,19 @@ target_link_libraries(${APP_NAME} PUBLIC
     Qt::Widgets
 )
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    install(TARGETS ${APP_NAME})
+    install(
+      FILES ${APP_NAME}.desktop
+      DESTINATION share/applications/
+      )
+    install(
+      FILES ${APP_NAME}.png
+      DESTINATION share/icons/hicolor/128x128/apps
+      )
+endif()
+
+
 if(WIN32)
     get_target_property(_qmake_executable Qt::qmake IMPORTED_LOCATION)
     get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)

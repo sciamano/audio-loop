@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=audio loop
+Icon=audio-loop
+Exec=audio-loop
+Terminal=false
+Categories=Audio;Player;
+Keywords=Sound;Audio;Player;
