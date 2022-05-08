@@ -35,8 +35,8 @@ jobs:
         aqt install-tool windows desktop tools_ninja -O $O_DIR
         aqt install-qt windows desktop 6.3.0 win64_mingw -m qtmultimedia -O $O_DIR
         #
-        Mingw_BIN=$O_DIR/Tools/mingw1120_64/bin
-        echo "Mingw_BIN=$Mingw_BIN" >>$GITHUB_ENV
+        MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
+        echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
         #
         CMake_BIN=$O_DIR/Tools/CMake_64/bin
         echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
@@ -48,7 +48,7 @@ jobs:
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
     - name: configure
       run: |
-        PATH=$Mingw_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         INSTALL_PATH=${{ matrix.build-type }}-${GITHUB_SHA:0:8}
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
         cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
