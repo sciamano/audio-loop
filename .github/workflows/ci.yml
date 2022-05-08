@@ -21,15 +21,17 @@ jobs:
     - uses: actions/checkout@v3
     - name: install Qt
       run: |
-        #wget https://github.com/miurahr/aqtinstall/releases/download/v2.1.0/aqt.exe
         O_DIR=$HOME/Qt
         pip install aqtinstall
         aqt install-tool windows desktop tools_mingw90 -O $O_DIR
         aqt install-tool windows desktop tools_cmake -O $O_DIR
         aqt install-tool windows desktop tools_ninja -O $O_DIR
+        aqt install-qt windows desktop 6.3.0 win64_mingw -m qtmultimedia -O $O_DIR
         cd $O_DIR
         ls -la
+        ls -laR Tools
         Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/mingw_64
+        ls -la $Qt6_DIR
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
     - name: configure
       run: |
