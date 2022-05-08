@@ -45,7 +45,11 @@ jobs:
         echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
         #
         Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/mingw_64
+        QT_PLUGIN_PATH=$Qt6_DIR/plugins
+        QML2_IMPORT_PATH=$Qt6_DIR/qml
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
+        echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
+        echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
     - name: configure
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
