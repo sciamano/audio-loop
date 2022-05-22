@@ -33,7 +33,7 @@ jobs:
         aqt install-tool windows desktop tools_mingw90 -O $O_DIR
         aqt install-tool windows desktop tools_cmake -O $O_DIR
         aqt install-tool windows desktop tools_ninja -O $O_DIR
-        aqt install-qt windows desktop 6.3.0 win64_mingw -m qtmultimedia -O $O_DIR
+        aqt install-qt windows desktop ${{ matrix.qt-version }} win64_mingw -m qtmultimedia -O $O_DIR
         #
         MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
         echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
