@@ -25,27 +25,27 @@ jobs:
         O_DIR=$HOME/Qt
         pip install aqtinstall
         #
-        aqt list-tool windows desktop
-        aqt list-tool windows desktop tools_mingw90 -l
-        aqt list-tool windows desktop tools_cmake -l
-        aqt list-tool windows desktop tools_ninja -l
+        # aqt list-tool windows desktop
+        # aqt list-tool windows desktop tools_mingw90 -l
+        # aqt list-tool windows desktop tools_cmake -l
+        # aqt list-tool windows desktop tools_ninja -l
         #
-        aqt install-tool windows desktop tools_mingw90 -O $O_DIR
-        aqt install-tool windows desktop tools_cmake -O $O_DIR
-        aqt install-tool windows desktop tools_ninja -O $O_DIR
+        # aqt install-tool windows desktop tools_mingw90 -O $O_DIR
+        # aqt install-tool windows desktop tools_cmake -O $O_DIR
+        # aqt install-tool windows desktop tools_ninja -O $O_DIR
         #
         aqt list-qt windows desktop --arch latest
         aqt install-qt windows desktop ${{ matrix.qt-version }} win64_msvc2019_64 -m qtmultimedia -O $O_DIR
-        MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
-        echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
+        # MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
+        # echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
         #
-        CMake_BIN=$O_DIR/Tools/CMake_64/bin
-        echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
+        # CMake_BIN=$O_DIR/Tools/CMake_64/bin
+        # echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
         #
-        Ninja_BIN=$O_DIR/Tools/Ninja
-        echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
+        # Ninja_BIN=$O_DIR/Tools/Ninja
+        # echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
         #
-        Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/mingw_64
+        Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/msvc2019_64
         QT_PLUGIN_PATH=$Qt6_DIR/plugins
         QML2_IMPORT_PATH=$Qt6_DIR/qml
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
