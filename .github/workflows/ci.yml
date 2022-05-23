@@ -33,6 +33,8 @@ jobs:
         aqt install-tool windows desktop tools_mingw90 -O $O_DIR
         aqt install-tool windows desktop tools_cmake -O $O_DIR
         aqt install-tool windows desktop tools_ninja -O $O_DIR
+        #
+        aqt list-qt windows desktop --arch latest
         aqt install-qt windows desktop ${{ matrix.qt-version }} win64_mingw -m qtmultimedia -O $O_DIR
         #
         MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
@@ -50,6 +52,8 @@ jobs:
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
         echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
+    - name: Setup MSVC environment
+      uses: ilammy/msvc-dev-cmd@v1
     - name: configure
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
