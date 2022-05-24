@@ -1,7 +1,7 @@
 #pragma once
 
-//#include <QAudioDecoder>
-//#include <QAudioSink>
+#include <QAudioDecoder>
+#include <QAudioSink>
 #include <QBuffer>
 
 class LoopBuffer : public QBuffer
@@ -38,8 +38,8 @@ private slots:
   void decodingFinished();
 
 private:
-//  QAudioFormat   format{};
-//  QAudioDecoder* decoder;
+  QAudioFormat   format{};
+  QAudioDecoder* decoder;
   LoopBuffer*    loopBuffer;
-//  QAudioSink*    audio;
+  QAudioSink*    audio;
 };
