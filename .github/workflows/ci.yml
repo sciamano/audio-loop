@@ -14,113 +14,59 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # platform: [x64]
-        qt-version: ['6.2.4', '6.3.0']
-        # build-type: [Debug, Release]
+        qt-version: ['6.3.0']
+        qt-arch: [win64_msvc2019_64, win64_mingw]
         build-type: [Release]
     steps:
     - uses: actions/checkout@v3
-    - name: install Qt
+    - name: install aqt
+      run: |
+        pip install aqtinstall
+    - name: install build tools
       run: |
         O_DIR=$HOME/Qt
-        pip install aqtinstall
+        echo "O_DIR=$O_DIR" >>$GITHUB_ENV
         #
-        # aqt list-tool windows desktop
-        # aqt list-tool windows desktop tools_mingw90 -l
-        # aqt list-tool windows desktop tools_cmake -l
-        # aqt list-tool windows desktop tools_ninja -l
-        #
-        # aqt install-tool windows desktop tools_mingw90 -O $O_DIR
         aqt install-tool windows desktop tools_cmake -O $O_DIR
-        aqt install-tool windows desktop tools_ninja -O $O_DIR
-        #
-        aqt list-qt windows desktop --arch latest
-        aqt install-qt windows desktop ${{ matrix.qt-version }} win64_msvc2019_64 -m qtmultimedia -O $O_DIR
-        # MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
-        # echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
-        #
         CMake_BIN=$O_DIR/Tools/CMake_64/bin
         echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
         #
+        aqt install-tool windows desktop tools_ninja -O $O_DIR
         Ninja_BIN=$O_DIR/Tools/Ninja
         echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
-        #
+    - name: install Qt
+      run: |
+        aqt list-qt windows desktop --arch latest
+        aqt install-qt windows desktop ${{ matrix.qt-version }} ${{ qt-matrix.qt-version }} -m qtmultimedia -O $O_DIR
         Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/msvc2019_64
         QT_PLUGIN_PATH=$Qt6_DIR/plugins
         QML2_IMPORT_PATH=$Qt6_DIR/qml
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
         echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
-    - uses: ilammy/msvc-dev-cmd@v1
+    - name: install MinGW
+      if: matrix.arch == 'win64_mingw'
+      run: |
+        aqt install-tool windows desktop tools_mingw90 -O $O_DIR
+        MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
+        echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
+    - name: install MSVC
+      if: matrix.arch == 'win64_msvc2019_64'
+      uses: ilammy/msvc-dev-cmd@v1
     - name: configure
       run: |
-        #PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-        PATH=$CMake_BIN:$Ninja_BIN:$PATH
-        INSTALL_PATH=${{ matrix.build-type }}-${{ matrix.qt-version }}-${GITHUB_SHA:0:8}
+        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        #PATH=$CMake_BIN:$Ninja_BIN:$PATH
+        INSTALL_PATH=${{ matrix.build-type }}-${{ matrix.compiler }}-${{ matrix.qt-version }}-${GITHUB_SHA:0:8}
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
-        #cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
     - name: build
       run: cmake --build build --target install
-    - name: post-check
-      run: |
-        ls -laR $INSTALL_PATH
+    # - name: post-check
+    #   run: |
+    #     ls -laR $INSTALL_PATH
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
         name: '${{ env.INSTALL_PATH }}'
         path: ${{ env.INSTALL_PATH }}/*
-
-  # linux:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       qt-version: ['6.3.0']
-  #       build-type: [Debug, Release]
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: install deps
-  #     run: |
-  #       sudo apt-get -qq update
-  #       sudo apt-get --assume-yes install qtbase5-dev qtmultimedia5-dev
-  #   - name: install Qt
-  #     run: |
-  #       pip install aqtinstall
-  #       Qt6_DIR=$HOME/Qt
-  #       echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
-  #       aqt install-qt linux desktop 6.3.0 gcc_64 -m qtmultimedia -O $Qt6_DIR
-  #   - name: configure
-  #     run: |
-  #       cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR/${{ matrix.qt-version }}/gcc_64 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
-  #   - name: build
-  #     run: |
-  #       INSTALL_PATH=linux-${{ matrix.build-type }}-${GITHUB_SHA:0:8}
-  #       echo $INSTALL_PATH
-  #       echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
-  #       cd build
-  #       make DESTDIR=$INSTALL_PATH install
-  #   - name: linuxdeploy
-  #     run: |
-  #       pwd
-  #       export PATH=`pwd`:$PATH
-  #       echo $PATH
-  #       wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-  #       wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
-  #       chmod +x linuxdeploy*.AppImage
-  #       echo $HOME
-  #       export PATH=$Qt6_DIR/${{ matrix.qt-version }}/gcc_64/bin:$PATH
-  #       mkdir -p $HOME/bin/
-  #       ln -s `which qmake6` $HOME/bin/qmake
-  #       export PATH=$HOME/bin/:$PATH
-  #       export LD_LIBRARY_PATH=$Qt6_DIR/${{ matrix.qt-version }}/gcc_64/lib:$LD_LIBRARY_PATH
-  #       linuxdeploy-x86_64.AppImage --appdir $INSTALL_PATH --plugin qt --output appimage
-  #   - name: post-check
-  #     run: |
-  #       ls -la
-  #       ls -laR $INSTALL_PATH
-  #   # - name: upload artefacts
-  #   #   uses: actions/upload-artifact@v3
-  #   #   with:
-  #   #     name: '${{ env.INSTALL_PATH }}'
-  #   #     path: ${{ env.INSTALL_PATH }}/*
