@@ -38,7 +38,7 @@ jobs:
       run: |
         aqt list-qt windows desktop --arch latest
         aqt install-qt windows desktop ${{ matrix.qt-version }} ${{ matrix.qt-arch }} -m qtmultimedia -O $O_DIR
-        Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/msvc2019_64
+        Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/${{ matrix.qt-arch }}
         QT_PLUGIN_PATH=$Qt6_DIR/plugins
         QML2_IMPORT_PATH=$Qt6_DIR/qml
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
@@ -57,11 +57,13 @@ jobs:
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         #PATH=$CMake_BIN:$Ninja_BIN:$PATH
-        INSTALL_PATH=${{ matrix.build-type }}-${{ matrix.compiler }}-${{ matrix.qt-version }}-${GITHUB_SHA:0:8}
+        INSTALL_PATH=${{ github.event.repository.name }}-${{ matrix.qt-version }}-${{ matrix.qt-arch }}-${GITHUB_SHA:0:8}
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
     - name: build
-      run: cmake --build build --target install
+      run: |
+        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        cmake --build build --target install
     # - name: post-check
     #   run: |
     #     ls -laR $INSTALL_PATH
