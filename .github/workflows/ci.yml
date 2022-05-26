@@ -38,7 +38,14 @@ jobs:
       run: |
         aqt list-qt windows desktop --arch latest
         aqt install-qt windows desktop ${{ matrix.qt-version }} ${{ matrix.qt-arch }} -m qtmultimedia -O $O_DIR
-        Qt6_DIR=$O_DIR/${{ matrix.qt-version }}/${{ matrix.qt-arch }}
+    - name: Qt dir
+      run: |
+        Qt6_QMAKE=`find $O_DIR -name "qmake6*"`
+        echo $Qt6_QMAKE
+        Qt6_BINDIR=`dirname $Qt6_QMAKE`
+        echo $Qt6_BINDIR
+        Qt6_DIR=`dirname $Qt6_BINDIR`
+        echo $Qt6_DIR
         QT_PLUGIN_PATH=$Qt6_DIR/plugins
         QML2_IMPORT_PATH=$Qt6_DIR/qml
         echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
@@ -56,7 +63,6 @@ jobs:
     - name: configure
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-        #PATH=$CMake_BIN:$Ninja_BIN:$PATH
         INSTALL_PATH=${{ github.event.repository.name }}-${{ matrix.qt-version }}-${{ matrix.qt-arch }}-${GITHUB_SHA:0:8}
         echo "INSTALL_PATH=$INSTALL_PATH" >>$GITHUB_ENV
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
@@ -64,9 +70,6 @@ jobs:
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         cmake --build build --target install
-    # - name: post-check
-    #   run: |
-    #     ls -laR $INSTALL_PATH
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
