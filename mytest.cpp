@@ -12,7 +12,7 @@ private slots:
 void TestLoopBuffer::bufferSizeTest()
 {
   auto* buffer = new LoopBuffer(this);
-  QCOMPARE(buffer->size(), std::numeric_limits<qint64>::max());
+  QCOMPARE(buffer->size(), std::numeric_limits<qint64>::max()-1);
 }
 
 QTEST_MAIN(TestLoopBuffer)
