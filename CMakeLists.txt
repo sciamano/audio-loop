@@ -19,6 +19,7 @@ find_package(Qt6 COMPONENTS Core)
 find_package(Qt6 COMPONENTS Gui)
 find_package(Qt6 COMPONENTS Multimedia)
 find_package(Qt6 COMPONENTS Widgets)
+find_package(Qt6 COMPONENTS Test)
 
 qt_add_executable(${APP_NAME}
     main.cpp
@@ -68,3 +69,17 @@ if(WIN32)
     install(TARGETS ${APP_NAME} DESTINATION ${APP_TARGET_DIR})
     install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" --compiler-runtime --verbose 3 \"${APP_TARGET_DIR}\")")
 endif(WIN32)
+
+enable_testing(true)
+add_executable(mytest
+  mytest.cpp
+  track.cpp
+)
+add_test(NAME mytest COMMAND mytest)
+
+target_link_libraries(mytest PRIVATE
+  Qt::Test
+  Qt::Multimedia
+  Qt::Widgets
+)
+
