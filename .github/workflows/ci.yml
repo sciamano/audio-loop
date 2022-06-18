@@ -73,7 +73,7 @@ jobs:
     - name: test
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-        ctest --test-dir build/
+        ctest --output-on-failure --test-dir build/
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
