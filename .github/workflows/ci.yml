@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.4.0']
+        qt-version: ['6.4.0', '6.2.6']
         qt-arch: [win64_msvc2019_64, win64_mingw]
         build-type: [Release]
     steps:
@@ -36,6 +36,7 @@ jobs:
         echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
     - name: install Qt
       run: |
+        aqt list-qt windows desktop
         aqt list-qt windows desktop --arch latest
         aqt install-qt windows desktop ${{ matrix.qt-version }} ${{ matrix.qt-arch }} -m qtmultimedia -O $O_DIR
     - name: Qt dir
