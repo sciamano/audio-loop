@@ -73,7 +73,7 @@ jobs:
         cmake --build build --target install
     - name: test
       run: |
-        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         ctest --verbose --output-on-failure --test-dir build/
     - name: upload artefacts
       uses: actions/upload-artifact@v3
