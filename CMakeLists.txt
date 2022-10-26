@@ -74,6 +74,7 @@ enable_testing(true)
 add_executable(mytest
   mytest.cpp
   track.cpp
+  test.qrc
 )
 add_test(NAME mytest COMMAND mytest)
 

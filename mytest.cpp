@@ -6,8 +6,21 @@ class TestLoopBuffer : public QObject
 {
   Q_OBJECT
 private slots:
+  void initTestCase();
   void bufferSizeTest();
 };
+
+void TestLoopBuffer::initTestCase()
+{
+    const QTemporaryDir tmp_dir;
+    const QDir base_dir(tmp_dir.path());
+    QString file_name("./");
+
+    QFile file(":/media/sound_0100.wav");
+    file_name.append(QFileInfo(file).fileName());
+    file_name = QDir::cleanPath(base_dir.absoluteFilePath(file_name));
+    QVERIFY(file.copy(file_name));
+}
 
 void TestLoopBuffer::bufferSizeTest()
 {
