@@ -29,6 +29,7 @@ jobs:
         O_DIR=$HOME/Qt
         echo "O_DIR=$O_DIR" >>$GITHUB_ENV
         #
+        aqt list-tool windows desktop
         aqt install-tool windows desktop tools_cmake -O $O_DIR
         CMake_BIN=$O_DIR/Tools/CMake_64/bin
         echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
