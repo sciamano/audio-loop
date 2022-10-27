@@ -16,7 +16,7 @@ void TestLoopBuffer::initTestCase()
     const QDir base_dir(tmp_dir.path());
     QString file_name("./");
 
-    QFile file(":/media/sound_0100.wav");
+    QFile file(":/tone.wav");
     file_name.append(QFileInfo(file).fileName());
     file_name = QDir::cleanPath(base_dir.absoluteFilePath(file_name));
     QVERIFY(file.copy(file_name));
