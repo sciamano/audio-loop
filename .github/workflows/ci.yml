@@ -78,8 +78,12 @@ jobs:
     - uses: actions/checkout@master
       with:
         name: LABSN/sound-ci-helpers
+        ref: master
     - name: vbcable
-      run: powershell sound-ci-helpers/windows/setup_sound.ps1
+      run: |
+        ls -la
+        ls -la sound-ci-helpers
+        powershell sound-ci-helpers/windows/setup_sound.ps1
     - name: test
       run: |
         net start audiosrv
