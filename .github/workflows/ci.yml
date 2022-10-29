@@ -78,10 +78,8 @@ jobs:
     - name: vbcable
       run: |
         git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
-        ls -la $HOME
-        ls -la $HOME/sound-ci-helpers
         powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
-        #net start audiosrv
+        net start audiosrv
     - name: test
       run: |
         PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
