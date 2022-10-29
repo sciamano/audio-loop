@@ -92,6 +92,8 @@ void Track::decodingFinished()
   qDebug() << "start playing" << QLocale().formattedDataSize(loopBuffer->size());
   loopBuffer->open(QIODevice::ReadOnly);
   audio->start(loopBuffer);
+
+  emit decoded();
 }
 
 void Track::pausePlay()

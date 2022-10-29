@@ -29,6 +29,9 @@ public:
 
   void playFile(const QString& fileName_);
 
+signals:
+  void decoded();
+
 public slots:
   void pausePlay();
   void continuePlay();
@@ -42,4 +45,6 @@ private:
   QAudioDecoder* decoder;
   LoopBuffer*    loopBuffer;
   QAudioSink*    audio;
+
+  friend class TestTrack;
 };
