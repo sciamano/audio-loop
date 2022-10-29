@@ -75,6 +75,11 @@ jobs:
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         cmake --build build --target install
+    - uses: actions/checkout@master
+      with:
+        name: LABSN/sound-ci-helpers
+    - name: vbcable
+      run: powershell sound-ci-helpers/windows/setup_sound.ps1
     - name: test
       run: |
         net start audiosrv
