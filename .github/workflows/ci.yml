@@ -75,11 +75,12 @@ jobs:
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         cmake --build build --target install
-    - uses: actions/checkout@master
-      with:
-        repository: LABSN/sound-ci-helpers
+    # - uses: actions/checkout@master
+    #   with:
+    #     repository: LABSN/sound-ci-helpers
     - name: vbcable
       run: |
+        git clone https://github.com/LABSN/sound-ci-helpers
         ls -la
         ls -la sound-ci-helpers
         powershell sound-ci-helpers/windows/setup_sound.ps1
