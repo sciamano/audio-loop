@@ -84,7 +84,9 @@ jobs:
       run: |
         PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         ctest --output-on-failure --test-dir build/ | tee test.out
-        cat test.out
+    - name: test output
+      if: always()
+      run: cat test.out
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
