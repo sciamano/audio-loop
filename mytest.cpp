@@ -41,7 +41,7 @@ void TestTrack::trackPlayPauseTest()
   QSignalSpy track_decoded(track, &Track::decoded);
   track->playFile(file_name);
   QVERIFY(track_decoded.wait());
-  QVERIFY(track->audio->state() != QAudio::ActiveState);
+  QVERIFY(track->audio->state() == QAudio::ActiveState);
 
   track->pausePlay();
   QVERIFY(track->audio->state() == QAudio::SuspendedState);
