@@ -5,70 +5,62 @@ set(APP_NAME "audio-loop")
 project(${APP_NAME} LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core)
-find_package(Qt6 COMPONENTS Gui)
-find_package(Qt6 COMPONENTS Multimedia)
-find_package(Qt6 COMPONENTS Widgets)
-find_package(Qt6 COMPONENTS Test)
+find_package(Qt6 6.5 COMPONENTS
+  Multimedia
+  Test
+  Widgets
+  REQUIRED)
+message(STATUS "Using Qt ${Qt6_VERSION} from ${Qt6_DIR}")
 
-qt_add_executable(${APP_NAME}
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    track.cpp
-    track.h
+qt_standard_project_setup()
+set(CMAKE_AUTORCC ON)
+
+qt_add_executable(${APP_NAME} WIN32
+  main.cpp
+  mainwindow.cpp
+  mainwindow.h
+  track.cpp
+  track.h
 )
 
-set_target_properties(${APP_NAME} PROPERTIES
-    WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE TRUE
-)
+# set_target_properties(${APP_NAME} PROPERTIES
+#     WIN32_EXECUTABLE TRUE
+#     MACOSX_BUNDLE TRUE
+# )
 
 target_link_libraries(${APP_NAME} PUBLIC
-    Qt::Multimedia
-    Qt::Widgets
+  Qt::Multimedia
+  Qt::Widgets
 )
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    install(TARGETS ${APP_NAME})
-    install(
-      FILES ${APP_NAME}.desktop
-      DESTINATION share/applications/
-      )
-    install(
-      FILES ${APP_NAME}.png
-      DESTINATION share/icons/hicolor/128x128/apps
-      )
-endif()
+install(TARGETS ${APP_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+qt_generate_deploy_app_script(TARGET ${APP_NAME} FILENAME_VARIABLE deploy_script)
+install(SCRIPT ${deploy_script})
 
+find_package(Git)
+execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_VERSION
+)
+string(STRIP ${GIT_VERSION} GIT_VERSION)
+message(STATUS "git version: ${GIT_VERSION}")
 
+include(InstallRequiredSystemLibraries)
+set(CPACK_PACKAGE_VERSION_MAJOR "${GIT_VERSION}")
+set(CPACK_PACKAGE_VERSION_MINOR "")
+set(CPACK_PACKAGE_VERSION_PATCH "")
 if(WIN32)
-    get_target_property(_qmake_executable Qt::qmake IMPORTED_LOCATION)
-    get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
-    find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
+  set(CPACK_GENERATOR "ZIP")
+elseif(UNIX AND CMAKE_SYSTEM_NAME MATCHES "Linux")
+  set(CPACK_GENERATOR "TGZ")
+endif()
+include(CPack)
 
-    message(STATUS "windeploy: ${WINDEPLOYQT_EXECUTABLE}")
-    message(STATUS "install prefix: ${CMAKE_INSTALL_PREFIX}")
 
-    set(CMAKE_INSTALL_BINDIR "")
-    message(STATUS "bin dir: ${CMAKE_INSTALL_BINDIR}")
-
-    set(APP_TARGET_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
-    message(STATUS "target  dir: ${APP_TARGET_DIR}")
-
-    install(TARGETS ${APP_NAME} DESTINATION ${APP_TARGET_DIR})
-    install(CODE "execute_process(COMMAND \"${WINDEPLOYQT_EXECUTABLE}\" --compiler-runtime --verbose 3 \"${APP_TARGET_DIR}\")")
-endif(WIN32)
 
 enable_testing(true)
 add_executable(mytest
@@ -79,8 +71,7 @@ add_executable(mytest
 add_test(NAME mytest COMMAND mytest)
 
 target_link_libraries(mytest PRIVATE
-  Qt::Test
   Qt::Multimedia
+  Qt::Test
   Qt::Widgets
 )
-
