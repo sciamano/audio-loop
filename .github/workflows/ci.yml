@@ -144,6 +144,12 @@ jobs:
         echo "Qt6_BINDIR=$Qt6_BINDIR" >>$GITHUB_ENV
         echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
+    - name: build deps
+      run: |
+        cat /etc/os-release
+        cat /etc/apt/sources.list
+        apt-get -qq update
+        apt-get install libgl1-mesa-dev
     - name: configure
       run: |
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
