@@ -148,8 +148,10 @@ jobs:
       run: |
         cat /etc/os-release
         cat /etc/apt/sources.list
-        apt-get -qq update
-        apt-get install libgl1-mesa-dev
+        ls -la /etc/apt/sources.list.d/
+        cat /etc/apt/sources.list.d/microsoft-prod.list
+        sudo apt-get -qq update
+        sudo apt-get install --assume-yes libgl1-mesa-dev
     - name: configure
       run: |
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
