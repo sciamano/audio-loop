@@ -70,16 +70,18 @@ jobs:
     - name: configure
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B build
+        BUILD_DIR=build
+        echo "BUILD_DIR=$BUILD_DIR" >>$GITHUB_ENV
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B $BUILD_DIR
     - name: build
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-        cmake --build build --target package
-        ls -la build
+        cmake --build $BUILD_DIR --target package
+        ls -la $BUILD_DIR
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        path: build/audio-loop-*.zip
+        path: $BUILD_DIR/audio-loop-*.zip
     - name: release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -88,7 +90,7 @@ jobs:
         name: ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: build/audio-loop-*.zip
+        files: $BUILD_DIR/audio-loop-*.zip
     # - name: vbcable
     #   run: |
     #     git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
@@ -144,19 +146,21 @@ jobs:
         sudo apt-get -qq update
         sudo apt-get install --assume-yes libgl1-mesa-dev
         sudo apt-get install --assume-yes libpulse0
-        sudo apt-get install --assume-yes libxcb-cursor0
-        sudo apt-get install --assume-yes libqt5gui5
+        #sudo apt-get install --assume-yes libxcb-cursor0
+        #sudo apt-get install --assume-yes libqt5gui5
     - name: configure
       run: |
-        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
+        BUILD_DIR=build
+        echo "BUILD_DIR=$BUILD_DIR" >>$GITHUB_ENV
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B $BUILD_DIR
     - name: build
       run: |
-        cmake --build build --target package
-        ls -la build
+        cmake --build $BUILD_DIR --target package
+        ls -la $BUILD_DIR
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        path: build/audio-loop-*.tar.gz
+        path: $BUILD_DIR/audio-loop-*.tar.gz
     - name: release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -165,7 +169,7 @@ jobs:
         name: ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: build/audio-loop-*.tar.gz
+        files: $BUILD_DIR/audio-loop-*.tar.gz
     # - name: test
     #   run: |
     #     export QT_DEBUG_PLUGINS=1
