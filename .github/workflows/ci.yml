@@ -152,6 +152,7 @@ jobs:
         cat /etc/apt/sources.list.d/microsoft-prod.list
         sudo apt-get -qq update
         sudo apt-get install --assume-yes libgl1-mesa-dev
+        sudo apt-get install --assume-yes pulseaudio
     - name: configure
       run: |
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
