@@ -177,4 +177,5 @@ jobs:
         files: build/audio-loop-*.tar.gz
     - name: test
       run: |
+        export QT_DEBUG_PLUGINS=1
         ctest --output-on-failure --test-dir build/ | tee test.out
