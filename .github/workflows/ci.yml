@@ -110,3 +110,61 @@ jobs:
     - name: test output
       if: always()
       run: cat test.out
+
+  ubuntu:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        qt-version: ['6.5.0']
+        build-type: [Release]
+    steps:
+    - uses: actions/checkout@v3
+    - name: install aqt
+      run: |
+        pip install aqtinstall==2.2.3
+    - name: install Qt
+      run: |
+        O_DIR=$HOME/Qt
+        echo "O_DIR=$O_DIR" >>$GITHUB_ENV
+        aqt list-qt linux desktop
+        aqt list-qt linux desktop --arch latest
+        aqt install-qt linux desktop ${{ matrix.qt-version }} -m qtmultimedia -O $O_DIR
+    - name: Qt dir
+      run: |
+        Qt6_QMAKE=`find $O_DIR -name "qmake6*"`
+        echo $Qt6_QMAKE
+        Qt6_BINDIR=`dirname $Qt6_QMAKE`
+        echo $Qt6_BINDIR
+        Qt6_DIR=`dirname $Qt6_BINDIR`
+        echo $Qt6_DIR
+        QT_PLUGIN_PATH=$Qt6_DIR/plugins
+        QML2_IMPORT_PATH=$Qt6_DIR/qml
+        echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
+        echo "Qt6_BINDIR=$Qt6_BINDIR" >>$GITHUB_ENV
+        echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
+        echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
+    - name: configure
+      run: |
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B build
+    - name: build
+      run: |
+        cmake --build build --target package
+        ls -la build
+    - name: upload artefacts
+      uses: actions/upload-artifact@v3
+      with:
+        #name: '${{ env.INSTALL_PATH }}'
+        path: build/audio-loop-*.tar.gz
+    - name: release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        files: build/audio-loop-*.tar.gz
+    - name: test
+      run: |
+        ctest --output-on-failure --test-dir build/ | tee test.out
