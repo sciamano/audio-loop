@@ -81,7 +81,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        path: ${{ BUILD_DIR }}/audio-loop-*.zip
+        path: ${{ env.BUILD_DIR }}/audio-loop-*.zip
     - name: release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -90,7 +90,7 @@ jobs:
         name: ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ${{ BUILD_DIR }}/audio-loop-*.zip
+        files: ${{ env.BUILD_DIR }}/audio-loop-*.zip
     # - name: vbcable
     #   run: |
     #     git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
@@ -160,7 +160,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        path: ${{ BUILD_DIR }}/audio-loop-*.tar.gz
+        path: ${{ env.BUILD_DIR }}/audio-loop-*.tar.gz
     - name: release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -169,7 +169,7 @@ jobs:
         name: ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ${{ BUILD_DIR }}/audio-loop-*.tar.gz
+        files: ${{ env.BUILD_DIR }}/audio-loop-*.tar.gz
     # - name: test
     #   run: |
     #     export QT_DEBUG_PLUGINS=1
