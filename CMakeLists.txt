@@ -19,7 +19,9 @@ message(STATUS "Using Qt ${Qt6_VERSION} from ${Qt6_DIR}")
 qt_standard_project_setup()
 set(CMAKE_AUTORCC ON)
 
-qt_add_executable(${APP_NAME} WIN32
+message(STATUS "system name: ${CMAKE_SYSTEM_NAME}")
+
+qt_add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE
   main.cpp
   mainwindow.cpp
   mainwindow.h
@@ -37,7 +39,9 @@ target_link_libraries(${APP_NAME} PUBLIC
   Qt::Widgets
 )
 
-install(TARGETS ${APP_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS ${APP_NAME}
+  BUNDLE  DESTINATION .
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 qt_generate_deploy_app_script(TARGET ${APP_NAME} FILENAME_VARIABLE deploy_script)
 install(SCRIPT ${deploy_script})
 
