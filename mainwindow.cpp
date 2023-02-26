@@ -11,13 +11,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
 
 void MainWindow::setupMenu()
 {
-  QAction* playFileAction = menuBar()->addAction(tr("Play"));
+  auto* fileMenu = menuBar()->addMenu("File");
+
+  auto* playFileAction = fileMenu->addAction(tr("Play"));
   connect(playFileAction, &QAction::triggered, this, &MainWindow::playFile);
 
-  QAction* pauseAction = menuBar()->addAction(tr("Pause"));
+  auto* pauseAction = fileMenu->addAction(tr("Pause"));
   connect(pauseAction, &QAction::triggered, track, &Track::pausePlay);
 
-  QAction* continueAction = menuBar()->addAction(tr("Continue"));
+  auto* continueAction = fileMenu->addAction(tr("Continue"));
   connect(continueAction, &QAction::triggered, track, &Track::continuePlay);
 }
 
