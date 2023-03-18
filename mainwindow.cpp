@@ -2,11 +2,47 @@
 
 #include <QtWidgets>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent)
+class Control1 : public QCheckBox
+{
+public:
+  explicit Control1(QWidget* parent = nullptr) :
+      QCheckBox(parent)
+  {
+    QString style("QCheckBox::indicator:unchecked  { image: url(:/control1.svg); }");
+    setStyleSheet(style);
+  }
+};
+
+class Control2 : public QCheckBox
+{
+public:
+  explicit Control2(QWidget* parent = nullptr) :
+      QCheckBox(parent)
+  {
+    QString style("QCheckBox::indicator:unchecked  { image: url(:/control1.svg); }");
+    setStyleSheet(style);
+  }
+
+  QSize sizeHint() const
+  {
+    return {10, 10};
+  }
+};
+
+MainWindow::MainWindow(QWidget* parent) :
+    QMainWindow(parent)
 {
   track = new Track(this);
 
   setupMenu();
+
+  auto widget = new QWidget(this);
+  auto layout = new QVBoxLayout(widget);
+  auto control1 = new Control1(this);
+  layout->addWidget(control1, 0, Qt::AlignmentFlag::AlignLeft);
+  auto control2 = new Control1(this);
+  layout->addWidget(control2, 0, Qt::AlignmentFlag::AlignLeft);
+  setCentralWidget(widget);
 }
 
 void MainWindow::setupMenu()
