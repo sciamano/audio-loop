@@ -19,13 +19,8 @@ public:
   explicit Control2(QWidget* parent = nullptr) :
       QCheckBox(parent)
   {
-    QString style("QCheckBox::indicator:unchecked  { image: url(:/control1.svg); }");
+    QString style("QCheckBox::indicator:unchecked  { image: url(:/control2.svg); }");
     setStyleSheet(style);
-  }
-
-  QSize sizeHint() const
-  {
-    return {10, 10};
   }
 };
 

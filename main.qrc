@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>control1.svg</file>
+        <file>control2.svg</file>
     </qresource>
 </RCC>
