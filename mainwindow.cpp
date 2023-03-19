@@ -35,6 +35,11 @@ MainWindow::MainWindow(QWidget* parent) :
   auto layout = new QVBoxLayout(widget);
 
   {
+      auto platform = new QLabel(QString("Platform: %1").arg(qApp->platformName()));
+      layout->addWidget(platform, 0, Qt::AlignmentFlag::AlignLeft);
+  }
+
+  {
       auto logicalDPI = new QLabel(QString("Logical DPI: %1").arg(logicalDpiX()));
       layout->addWidget(logicalDPI, 0, Qt::AlignmentFlag::AlignLeft);
   }
