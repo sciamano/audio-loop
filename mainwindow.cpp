@@ -40,6 +40,16 @@ MainWindow::MainWindow(QWidget* parent) :
   }
 
   {
+      auto dirPath = new QLabel(QString("application dir: %1").arg(QCoreApplication::applicationDirPath()));
+      layout->addWidget(dirPath, 0, Qt::AlignmentFlag::AlignLeft);
+  }
+
+  {
+      auto filePath = new QLabel(QString("application file: %1").arg(QCoreApplication::applicationFilePath()));
+      layout->addWidget(filePath, 0, Qt::AlignmentFlag::AlignLeft);
+  }
+
+  {
       auto logicalDPI = new QLabel(QString("Logical DPI: %1").arg(logicalDpiX()));
       layout->addWidget(logicalDPI, 0, Qt::AlignmentFlag::AlignLeft);
   }
