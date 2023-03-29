@@ -50,6 +50,10 @@ if((CMAKE_SYSTEM_NAME MATCHES "Windows" AND Qt6_VERSION VERSION_GREATER_EQUAL 6.
     qt_generate_deploy_app_script(TARGET ${APP_NAME} FILENAME_VARIABLE deploy_script)
     install(SCRIPT ${deploy_script})
 
+    install(FILES
+      "${PROJECT_SOURCE_DIR}/tone.wav"
+      DESTINATION "${APP_NAME}.app/Contents/Data")
+
     find_package(Git)
     execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}

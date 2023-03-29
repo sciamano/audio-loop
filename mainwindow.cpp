@@ -104,6 +104,9 @@ void MainWindow::setupMenu()
 
   auto* continueAction = fileMenu->addAction(tr("Continue"));
   connect(continueAction, &QAction::triggered, track, &Track::continuePlay);
+
+  auto* playExampleAction = fileMenu->addAction(tr("Example"));
+  connect(playExampleAction, &QAction::triggered, this, &MainWindow::playExample);
 }
 
 void MainWindow::playFile()
@@ -113,4 +116,12 @@ void MainWindow::playFile()
   {
     track->playFile(fileName);
   }
+}
+
+void MainWindow::playExample()
+{
+    QString fileName = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("../Data/tone.wav");
+    fileName = QDir::cleanPath(fileName);
+    qDebug() << fileName;
+    track->playFile(fileName);
 }

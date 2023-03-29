@@ -11,6 +11,7 @@ public:
 
 private slots:
   void playFile();
+  void playExample();
 
 private:
   void setupMenu();
