@@ -93,8 +93,8 @@ jobs:
         files: ${{ env.BUILD_DIR }}/audio-loop-*.zip
     - name: vbcable
       run: |
-        # git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
-        # powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
+        git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
+        powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
         net start audiosrv
     - name: test
       run: |
@@ -146,7 +146,7 @@ jobs:
         cat /etc/apt/sources.list.d/microsoft-prod.list
         sudo apt-get -qq update
         sudo apt-get install --assume-yes libgl1-mesa-dev
-        # sudo apt-get install --assume-yes libpulse0
+        sudo apt-get install --assume-yes libpulse0
         # sudo apt-get install --assume-yes libxcb-cursor0
         # sudo apt-get install --assume-yes libqt5gui5
     - name: configure
@@ -177,7 +177,7 @@ jobs:
     #     ctest --output-on-failure --test-dir build/ | tee test.out
 
   macos:
-    runs-on: macos-12
+    runs-on: macos-11
     strategy:
       fail-fast: false
       matrix:
