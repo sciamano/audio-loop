@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.4.3']
+        qt-version: ['6.5.0']
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
@@ -91,15 +91,16 @@ jobs:
         draft: false
         prerelease: false
         files: ${{ env.BUILD_DIR }}/audio-loop-*.zip
-    # - name: vbcable
-    #   run: |
-    #     git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
-    #     powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
-    #     net start audiosrv
-    # - name: test
-    #   run: |
-    #     PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-    #     ctest --output-on-failure --test-dir build/ | tee test.out
+    - name: vbcable
+      run: |
+        git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
+        powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
+        net start audiosrv
+    - name: test
+      run: |
+        PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        export QT_DEBUG_PLUGINS=1
+        ctest --output-on-failure --test-dir build/ | tee test.out
     # - name: test output
     #   if: always()
     #   run: cat test.out
@@ -170,17 +171,17 @@ jobs:
         draft: false
         prerelease: false
         files: ${{ env.BUILD_DIR }}/audio-loop-*.tar.gz
-    # - name: test
-    #   run: |
-    #     export QT_DEBUG_PLUGINS=1
-    #     ctest --output-on-failure --test-dir build/ | tee test.out
+    - name: test
+      run: |
+        export QT_DEBUG_PLUGINS=1
+        ctest --output-on-failure --test-dir build/ | tee test.out
 
   macos:
     runs-on: macos-12
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.4.3']
+        qt-version: ['6.5.0']
         build-type: [Release]
     steps:
     - uses: actions/checkout@v3
