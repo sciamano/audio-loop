@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.5.0']
+        qt-version: ['6.4.3']
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
@@ -147,8 +147,8 @@ jobs:
         sudo apt-get -qq update
         sudo apt-get install --assume-yes libgl1-mesa-dev
         sudo apt-get install --assume-yes libpulse0
-        #sudo apt-get install --assume-yes libxcb-cursor0
-        #sudo apt-get install --assume-yes libqt5gui5
+        sudo apt-get install --assume-yes libxcb-cursor0
+        sudo apt-get install --assume-yes libqt5gui5
     - name: configure
       run: |
         BUILD_DIR=build
