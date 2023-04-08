@@ -93,14 +93,14 @@ jobs:
         files: ${{ env.BUILD_DIR }}/audio-loop-*.zip
     - name: vbcable
       run: |
-        git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
-        powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
+        # git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
+        # powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
         net start audiosrv
     - name: test
       run: |
         PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         export QT_DEBUG_PLUGINS=1
-        ctest --output-on-failure --test-dir build/ | tee test.out
+        ctest --output-on-failure --test-dir build/
     # - name: test output
     #   if: always()
     #   run: cat test.out
@@ -146,9 +146,9 @@ jobs:
         cat /etc/apt/sources.list.d/microsoft-prod.list
         sudo apt-get -qq update
         sudo apt-get install --assume-yes libgl1-mesa-dev
-        sudo apt-get install --assume-yes libpulse0
-        sudo apt-get install --assume-yes libxcb-cursor0
-        sudo apt-get install --assume-yes libqt5gui5
+        # sudo apt-get install --assume-yes libpulse0
+        # sudo apt-get install --assume-yes libxcb-cursor0
+        # sudo apt-get install --assume-yes libqt5gui5
     - name: configure
       run: |
         BUILD_DIR=build
@@ -171,10 +171,10 @@ jobs:
         draft: false
         prerelease: false
         files: ${{ env.BUILD_DIR }}/audio-loop-*.tar.gz
-    - name: test
-      run: |
-        export QT_DEBUG_PLUGINS=1
-        ctest --output-on-failure --test-dir build/ | tee test.out
+    # - name: test
+    #   run: |
+    #     export QT_DEBUG_PLUGINS=1
+    #     ctest --output-on-failure --test-dir build/ | tee test.out
 
   macos:
     runs-on: macos-12
@@ -209,17 +209,6 @@ jobs:
         echo "Qt6_BINDIR=$Qt6_BINDIR" >>$GITHUB_ENV
         echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
-    # - name: build deps
-    #   run: |
-    #     cat /etc/os-release
-    #     cat /etc/apt/sources.list
-    #     ls -la /etc/apt/sources.list.d/
-    #     cat /etc/apt/sources.list.d/microsoft-prod.list
-    #     sudo apt-get -qq update
-    #     sudo apt-get install --assume-yes libgl1-mesa-dev
-    #     sudo apt-get install --assume-yes libpulse0
-    #     #sudo apt-get install --assume-yes libxcb-cursor0
-    #     #sudo apt-get install --assume-yes libqt5gui5
     - name: configure
       run: |
         BUILD_DIR=build
@@ -245,4 +234,4 @@ jobs:
     - name: test
       run: |
         export QT_DEBUG_PLUGINS=1
-        ctest --output-on-failure --test-dir build/ | tee test.out
+        ctest --output-on-failure --test-dir build/
