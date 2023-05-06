@@ -40,27 +40,31 @@ target_link_libraries(${APP_NAME} PUBLIC
   Qt::Widgets
 )
 
+find_package(Git)
+execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_VERSION
+)
+string(STRIP ${GIT_VERSION} GIT_VERSION)
+message(STATUS "git version: ${GIT_VERSION}")
+
+install(TARGETS ${APP_NAME} RUNTIME BUNDLE DESTINATION ".")
+
+set(USE_DEPLOY ON)
+
+if(USE_DEPLOY)
 if((CMAKE_SYSTEM_NAME MATCHES "Windows" AND Qt6_VERSION VERSION_GREATER_EQUAL 6.4)
   OR (CMAKE_SYSTEM_NAME MATCHES "Darwin" AND Qt6_VERSION VERSION_GREATER_EQUAL 6.4)
   OR (CMAKE_SYSTEM_NAME MATCHES "Linux" AND Qt6_VERSION VERSION_GREATER_EQUAL 6.5))
 
-    install(TARGETS ${APP_NAME}
-      BUNDLE  DESTINATION .
-      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    set(CMAKE_INSTALL_DATADIR "${APP_NAME}.app/Contents/Resources")
+    if(NOT CMAKE_SYSTEM_NAME MATCHES "Darwin")
+      set(CMAKE_INSTALL_DATADIR ".")
+    endif()
+    set(CMAKE_INSTALL_DOCDIR ${CMAKE_INSTALL_DATADIR})
+
     qt_generate_deploy_app_script(TARGET ${APP_NAME} FILENAME_VARIABLE deploy_script)
     install(SCRIPT ${deploy_script})
-
-    install(FILES
-      "${PROJECT_SOURCE_DIR}/tone.wav"
-      DESTINATION "${APP_NAME}.app/Contents/Data")
-
-    find_package(Git)
-    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
-      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-      OUTPUT_VARIABLE GIT_VERSION
-    )
-    string(STRIP ${GIT_VERSION} GIT_VERSION)
-    message(STATUS "git version: ${GIT_VERSION}")
 
     include(InstallRequiredSystemLibraries)
     set(CPACK_PACKAGE_VERSION_MAJOR "${GIT_VERSION}")
@@ -76,8 +80,15 @@ if((CMAKE_SYSTEM_NAME MATCHES "Windows" AND Qt6_VERSION VERSION_GREATER_EQUAL 6.
     include(CPack)
 
 endif()
+endif()
 
+install(FILES
+  "${PROJECT_SOURCE_DIR}/tone.wav"
+  TYPE DATA)
 
+install(FILES
+  "${PROJECT_SOURCE_DIR}/README.md"
+  TYPE DOC)
 
 enable_testing(true)
 add_executable(mytest
