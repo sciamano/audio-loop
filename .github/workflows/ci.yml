@@ -209,6 +209,7 @@ jobs:
         sudo apt-get install --assume-yes libpulse0
         # sudo apt-get install --assume-yes libxcb-cursor0
         # sudo apt-get install --assume-yes libqt5gui5
+        sudo apt-get install --assume-yes xvfb
     - name: configure
       run: |
         BUILD_DIR=build
@@ -231,7 +232,7 @@ jobs:
         draft: false
         prerelease: false
         files: ${{ env.BUILD_DIR }}/audio-loop-*.tar.gz
-    # - name: test
-    #   run: |
-    #     export QT_DEBUG_PLUGINS=1
-    #     ctest --output-on-failure --test-dir build/ | tee test.out
+    - name: test
+      run: |
+        export QT_DEBUG_PLUGINS=1
+        xvfb-run ctest --output-on-failure --test-dir $BUILD_DIR
