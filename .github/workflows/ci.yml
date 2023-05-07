@@ -207,8 +207,8 @@ jobs:
         sudo apt-get -qq update
         sudo apt-get install --assume-yes libgl1-mesa-dev
         sudo apt-get install --assume-yes libpulse0
-        # sudo apt-get install --assume-yes libxcb-cursor0
-        # sudo apt-get install --assume-yes libqt5gui5
+        sudo apt-get install --assume-yes libxcb-cursor0
+        sudo apt-get install --assume-yes libqt5gui5
         sudo apt-get install --assume-yes xvfb
     - name: configure
       run: |
