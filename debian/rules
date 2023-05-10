@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/default.mk
+
+export DH_VERBOSE = 1
+export APP_VERSION=${DEB_VERSION}
+
+%:
+	dh $@ --buildsystem=cmake
+
+override_dh_auto_test:
