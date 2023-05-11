@@ -40,13 +40,19 @@ target_link_libraries(${APP_NAME} PUBLIC
   Qt::Widgets
 )
 
-find_package(Git)
-execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_VERSION
-)
-string(STRIP ${GIT_VERSION} GIT_VERSION)
-message(STATUS "git version: ${GIT_VERSION}")
+set(APP_VERSION "unknown")
+if(DEFINED ENV{APP_VERSION})
+  set(APP_VERSION $ENV{APP_VERSION})
+else()
+  find_package(Git)
+  if(Git_FOUND)
+    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+      OUTPUT_VARIABLE APP_VERSION)
+  endif()
+endif()
+string(STRIP ${APP_VERSION} APP_VERSION)
+message(STATUS "version: ${APP_VERSION}")
 
 install(TARGETS ${APP_NAME} RUNTIME BUNDLE DESTINATION ".")
 
