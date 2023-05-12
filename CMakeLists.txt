@@ -96,6 +96,10 @@ install(FILES
   "${PROJECT_SOURCE_DIR}/README.md"
   TYPE DOC)
 
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+  add_subdirectory(linux)
+endif()
+
 enable_testing(true)
 add_executable(mytest
   mytest.cpp
