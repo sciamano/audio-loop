@@ -3,9 +3,11 @@
 include /usr/share/dpkg/default.mk
 
 export DH_VERBOSE = 1
-export APP_VERSION=${DEB_VERSION}
 
 %:
 	dh $@ --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DAPP_VERSION=${DEB_VERSION}
 
 override_dh_auto_test:
