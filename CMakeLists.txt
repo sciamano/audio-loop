@@ -40,15 +40,14 @@ target_link_libraries(${APP_NAME} PUBLIC
   Qt::Widgets
 )
 
-set(APP_VERSION "unknown")
-if(DEFINED ENV{APP_VERSION})
-  set(APP_VERSION $ENV{APP_VERSION})
-else()
+if(NOT DEFINED APP_VERSION)
   find_package(Git)
   if(Git_FOUND)
     execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
       OUTPUT_VARIABLE APP_VERSION)
+  elseif()
+    set(APP_VERSION "unknown")
   endif()
 endif()
 string(STRIP ${APP_VERSION} APP_VERSION)
@@ -94,7 +93,7 @@ install(FILES
 
 install(FILES
   "${PROJECT_SOURCE_DIR}/README.md"
-  TYPE DOC)
+  DESTINATION ${CMAKE_INSTALL_DOCDIR}/${APP_NAME})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
   add_subdirectory(linux)

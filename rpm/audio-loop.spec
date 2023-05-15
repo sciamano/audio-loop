@@ -21,8 +21,7 @@ qt app that playes sound in a loop
 %autosetup
 
 %build
-export APP_VERSION=%{version}
-%cmake
+%cmake -DAPP_VERSION=%{version} -DCMAKE_INSTALL_DOCDIR=%{_docdir}
 %cmake_build
 
 %install
