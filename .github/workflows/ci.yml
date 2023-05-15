@@ -209,6 +209,7 @@ jobs:
         sudo apt-get install --assume-yes libpulse0
         sudo apt-get install --assume-yes libxcb-cursor0
         sudo apt-get install --assume-yes libqt5gui5
+        sudo apt-get install --assume-yes pulseaudio-utils
         sudo apt-get install --assume-yes xvfb
     - name: configure
       run: |
