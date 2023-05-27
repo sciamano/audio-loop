@@ -93,7 +93,7 @@ install(FILES
 
 install(FILES
   "${PROJECT_SOURCE_DIR}/README.md"
-  DESTINATION ${CMAKE_INSTALL_DOCDIR}/${APP_NAME})
+  TYPE DOC)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
   add_subdirectory(linux)
