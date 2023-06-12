@@ -4,5 +4,6 @@ Name=audio loop
 Icon=audio-loop
 Exec=audio-loop
 Terminal=false
-Categories=Audio;Player;
+Categories=Audio;Player;AudioVideo;
 Keywords=Sound;Audio;Player;
+X-Desktop-File-Install-Version=0.26
