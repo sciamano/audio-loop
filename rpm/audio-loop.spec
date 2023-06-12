@@ -1,5 +1,5 @@
 Name:		audio-loop
-Version:	1.1.0
+Version:	1.1.1
 Release:	1.1
 Summary:	Qt app that playes sound in a loop
 
