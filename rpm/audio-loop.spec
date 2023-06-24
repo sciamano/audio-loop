@@ -9,6 +9,7 @@ Source:		%{name}_%{version}.orig.tar.gz
 BuildRequires:	cmake
 BuildRequires:	desktop-file-utils
 BuildRequires:	gcc-c++
+BuildRequires:	hicolor-icon-theme
 BuildRequires:	pkgconfig
 BuildRequires:	pkgconfig(Qt6Core)
 BuildRequires:	pkgconfig(Qt6Multimedia)
