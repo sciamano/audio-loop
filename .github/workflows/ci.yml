@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.5.1']
+        qt-version: ['6.6.0']
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
@@ -90,7 +90,7 @@ jobs:
         name: ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ${{ env.BUILD_DIR }}/audio-loop-*.zip
+        files: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: vbcable
       run: |
         git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
@@ -110,7 +110,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.5.1']
+        qt-version: ['6.6.0']
         build-type: [Release]
     steps:
     - uses: actions/checkout@v3
@@ -150,7 +150,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        path: ${{ env.BUILD_DIR }}/audio-loop-*.dmg
+        path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
@@ -170,7 +170,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.5.1']
+        qt-version: ['6.6.0']
         build-type: [Release]
     steps:
     - uses: actions/checkout@v3
@@ -232,7 +232,7 @@ jobs:
         name: ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ${{ env.BUILD_DIR }}/audio-loop-*.tar.gz
+        files: ${{ env.BUILD_DIR }}/audio-loop-*
     # - name: test
     #   run: |
     #     export QT_DEBUG_PLUGINS=1
