@@ -7,7 +7,7 @@ Subject: cmake fix
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 2ab7ac7..890ef42 100644
+index 85f7ea8..4f22d49 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,4 +1,4 @@

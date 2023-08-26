@@ -1,0 +1,17 @@
+From: Denis <sciamano@users.noreply.github.com>
+Date: Sat, 26 Aug 2023 23:03:35 +0200
+Subject: fix readme
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index c224c02..50bb088 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,3 @@
+ # audio-loop
+ 
+-qt app that playes sound in a loop
++qt app that plays sound in a loop
