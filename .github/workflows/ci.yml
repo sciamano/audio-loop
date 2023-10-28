@@ -26,19 +26,19 @@ jobs:
     - name: install aqt
       run: |
         pip3 install aqtinstall==2.2.3
-    - name: install build tools
-      run: |
-        O_DIR=$HOME/Qt
-        echo "O_DIR=$O_DIR" >>$GITHUB_ENV
-        #
-        aqt list-tool windows desktop
-        aqt install-tool windows desktop tools_cmake -O $O_DIR
-        CMake_BIN=$O_DIR/Tools/CMake_64/bin
-        echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
-        #
-        aqt install-tool windows desktop tools_ninja -O $O_DIR
-        Ninja_BIN=$O_DIR/Tools/Ninja
-        echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
+    # - name: install build tools
+    #   run: |
+    #     O_DIR=$HOME/Qt
+    #     echo "O_DIR=$O_DIR" >>$GITHUB_ENV
+    #     #
+    #     aqt list-tool windows desktop
+    #     aqt install-tool windows desktop tools_cmake -O $O_DIR
+    #     CMake_BIN=$O_DIR/Tools/CMake_64/bin
+    #     echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
+    #     #
+    #     aqt install-tool windows desktop tools_ninja -O $O_DIR
+    #     Ninja_BIN=$O_DIR/Tools/Ninja
+    #     echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
     - name: install Qt
       run: |
         aqt list-qt windows desktop
@@ -58,24 +58,24 @@ jobs:
         echo "Qt6_BINDIR=$Qt6_BINDIR" >>$GITHUB_ENV
         echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
-    - name: install MinGW
-      if: matrix.qt-arch == 'win64_mingw'
-      run: |
-        aqt install-tool windows desktop tools_mingw90 -O $O_DIR
-        MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
-        echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
-    - name: install MSVC
-      if: matrix.qt-arch == 'win64_msvc2019_64'
-      uses: ilammy/msvc-dev-cmd@v1
+    # - name: install MinGW
+    #   if: matrix.qt-arch == 'win64_mingw'
+    #   run: |
+    #     aqt install-tool windows desktop tools_mingw90 -O $O_DIR
+    #     MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
+    #     echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
+    # - name: install MSVC
+    #   if: matrix.qt-arch == 'win64_msvc2019_64'
+    #   uses: ilammy/msvc-dev-cmd@v1
     - name: configure
       run: |
-        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        # PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         BUILD_DIR=build
         echo "BUILD_DIR=$BUILD_DIR" >>$GITHUB_ENV
-        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B $BUILD_DIR -DUSE_DEPLOY=ON
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B $BUILD_DIR -DUSE_DEPLOY=ON
     - name: build
       run: |
-        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        # PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         cmake --build $BUILD_DIR --target package
         ls -la $BUILD_DIR
     - name: upload artefacts
