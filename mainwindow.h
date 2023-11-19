@@ -14,7 +14,5 @@ private slots:
   void playExample();
 
 private:
-  void setupMenu();
-
   Track* track;
 };
