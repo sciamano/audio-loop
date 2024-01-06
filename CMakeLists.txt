@@ -35,7 +35,7 @@ target_link_libraries(${APP_NAME} PUBLIC
 )
 
 if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8 /Zc:__cplusplus /std:c++latest")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8 /Zc:__cplusplus /std:c++latest /permissive-")
 endif()
 
 if(NOT DEFINED APP_VERSION)
