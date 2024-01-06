@@ -2,28 +2,6 @@
 
 #include <QtWidgets>
 
-class Control1 : public QCheckBox
-{
-public:
-  explicit Control1(QWidget* parent = nullptr) :
-      QCheckBox(parent)
-  {
-    QString style("QCheckBox::indicator:unchecked  { image: url(:/control1.svg); }");
-    setStyleSheet(style);
-  }
-};
-
-class Control2 : public QCheckBox
-{
-public:
-  explicit Control2(QWidget* parent = nullptr) :
-      QCheckBox(parent)
-  {
-    QString style("QCheckBox::indicator:unchecked  { image: url(:/control2.svg); }");
-    setStyleSheet(style);
-  }
-};
-
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent)
 {
@@ -57,12 +35,4 @@ void MainWindow::playFile()
   {
     track->playFile(fileName);
   }
-}
-
-void MainWindow::playExample()
-{
-  QString fileName = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("../Data/tone.wav");
-  fileName = QDir::cleanPath(fileName);
-  qDebug() << fileName;
-  track->playFile(fileName);
 }

@@ -27,13 +27,7 @@ qt_add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE
   mainwindow.h
   track.cpp
   track.h
-  main.qrc
 )
-
-# set_target_properties(${APP_NAME} PROPERTIES
-#     WIN32_EXECUTABLE TRUE
-#     MACOSX_BUNDLE TRUE
-# )
 
 target_link_libraries(${APP_NAME} PUBLIC
   Qt::Multimedia

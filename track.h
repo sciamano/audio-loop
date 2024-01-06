@@ -6,18 +6,20 @@
 
 class LoopBuffer : public QBuffer
 {
+  Q_OBJECT
+
 public:
   LoopBuffer(QObject* parent = nullptr);
-  void   prepareRead();
+  void prepareRead();
   qint64 size() const override;
   qint64 readData(char* dest, qint64 len) override;
   qint64 current() const;
 
 private:
   const char* src{nullptr};
-  size_t      loopLength{0};
-  size_t      offset{0};
-  qint64      total{0};
+  size_t loopLength{0};
+  size_t offset{0};
+  qint64 total{0};
 };
 
 class Track : public QObject
@@ -41,10 +43,10 @@ private slots:
   void decodingFinished();
 
 private:
-  QAudioFormat   format{};
+  QAudioFormat format{};
   QAudioDecoder* decoder;
-  LoopBuffer*    loopBuffer;
-  QAudioSink*    audio;
+  LoopBuffer* loopBuffer;
+  QAudioSink* audio;
 
   friend class TestTrack;
 };
