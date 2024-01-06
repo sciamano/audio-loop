@@ -34,6 +34,12 @@ target_link_libraries(${APP_NAME} PUBLIC
   Qt::Widgets
 )
 
+if(MSVC)
+  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8 /Zc:__cplusplus /std:c++latest")
+  append("/Zc:__cplusplus" CMAKE_CXX_FLAGS)
+  append("/std:c++latest" CMAKE_CXX_FLAGS)
+endif()
+
 if(NOT DEFINED APP_VERSION)
   find_package(Git)
   if(Git_FOUND)
