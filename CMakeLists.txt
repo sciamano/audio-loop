@@ -130,20 +130,39 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       COMMAND ctest -C $<CONFIG> $ENV{ARGS} $$ARGS
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
 
-    message(STATUS "setup LCOV coverage report")
+    # message(STATUS "setup LCOV coverage report")
+    # add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
+    #   COMMAND lcov
+    #   --capture
+    #   --output-file coverage.info
+    #   --no-external
+    #   --exclude "*.moc"
+    #   --exclude "moc_*"
+    #   --exclude "qrc_*"
+    #   --base-directory ${PROJECT_SOURCE_DIR}
+    #   --directory ${PROJECT_BINARY_DIR}
+    #   WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    #   COMMENT "code coverage report by lcov")
+
+    # message(STATUS "setup GCOV coverage report")
+    # add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
+    #   COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/gcovr
+    #   COMMAND gcovr
+    #   --html --html-details
+    #   --output gcovr/index.html
+    #   --root ${PROJECT_SOURCE_DIR}
+    #   --object-directory ${PROJECT_BINARY_DIR}
+    #   WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    #   COMMENT "code coverage report by gcovr")
+
+    message(STATUS "setup GCOV coverage report")
     add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
-      COMMAND lcov
-      --capture
-      --ignore-errors inconsistent
-      --ignore-errors source
-      --output-file coverage.info
-      --no-external
-      --exclude "*.moc"
-      --exclude "moc_*"
-      --exclude "qrc_*"
-      --base-directory ${PROJECT_SOURCE_DIR}
-      --directory ${PROJECT_BINARY_DIR}
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/gcovr
+      COMMAND gcovr
+      --coveralls coverage.json
+      --root ${PROJECT_SOURCE_DIR}
+      --object-directory ${PROJECT_BINARY_DIR}
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-      COMMENT "code coverage report by lcov")
+      COMMENT "code coverage report by gcovr")
 
 endif()
