@@ -112,6 +112,9 @@ jobs:
     - name: install aqt
       run: |
         pip3 install aqtinstall==2.2.3
+    - name: install tools
+      run: |
+        brew install lcov
     - name: install Qt
       run: |
         O_DIR=$HOME/Qt
