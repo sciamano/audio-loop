@@ -218,6 +218,7 @@ jobs:
         sudo apt-get install --assume-yes libqt5gui5
         sudo apt-get install --assume-yes pulseaudio-utils
         sudo apt-get install --assume-yes xvfb
+        sudo apt-get install --assume-yes pulseaudio
     - name: configure
       run: |
         BUILD_DIR=build
@@ -240,8 +241,10 @@ jobs:
         draft: false
         prerelease: false
         files: ${{ env.BUILD_DIR }}/audio-loop-*
-    # - name: test
-    #   run: |
-    #     export QT_DEBUG_PLUGINS=1
-    #     pacmd load-module module-null-sink sink_name=Virtual_Sink sink_properties=device.description=Virtual_Sink
-    #     xvfb-run ctest --output-on-failure --test-dir $BUILD_DIR
+    - name: test
+      run: |
+        export QT_DEBUG_PLUGINS=1
+        systemctl --user start pulseaudio
+        ctest --output-on-failure --test-dir $BUILD_DIR
+        #pacmd load-module module-null-sink sink_name=Virtual_Sink sink_properties=device.description=Virtual_Sink
+        #xvfb-run ctest --output-on-failure --test-dir $BUILD_DIR
