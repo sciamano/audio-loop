@@ -126,9 +126,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
     set(CTEST_COVERAGE_TARGET coverage)
-    add_custom_target(${CTEST_COVERAGE_TARGET}
-      COMMAND ctest -C $<CONFIG> $ENV{ARGS} $$ARGS
-      WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+    add_custom_target(${CTEST_COVERAGE_TARGET})
 
     # message(STATUS "setup LCOV coverage report")
     # add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
