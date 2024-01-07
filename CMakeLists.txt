@@ -138,6 +138,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       --ignore-errors source
       --output-file coverage.info
       --no-external
+      --exclude "*.moc"
+      --exclude "moc_*"
+      --exclude "qrc_*"
       --base-directory ${PROJECT_SOURCE_DIR}
       --directory ${PROJECT_BINARY_DIR}
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
