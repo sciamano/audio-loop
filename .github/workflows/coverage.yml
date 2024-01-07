@@ -61,14 +61,14 @@ jobs:
         sudo apt-get install --assume-yes xvfb
     - name: configure
       run: |
-        BUILD_DIR=build
+        BUILD_DIR=$HOME/build
         echo "BUILD_DIR=$BUILD_DIR" >>$GITHUB_ENV
         pwd
         cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B $BUILD_DIR -DUSE_DEPLOY=ON
     - name: build
       run: |
         pwd
-        cmake --build $BUILD_DIR --target package
+        cmake --build $BUILD_DIR --target all
         ls -la $BUILD_DIR
     - name: test
       run: |
