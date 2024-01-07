@@ -118,3 +118,25 @@ target_link_libraries(mytest PRIVATE
   Qt::Test
   Qt::Widgets
 )
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+    find_program(LCOV lcov REQUIRED)
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+    set(CTEST_COVERAGE_TARGET coverage)
+    add_custom_target(${CTEST_COVERAGE_TARGET}
+      COMMAND ctest -C $<CONFIG> $ENV{ARGS} $$ARGS
+      WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+
+    message(STATUS "setup LCOV coverage report")
+    add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
+      COMMAND lcov
+      --capture
+      --output-file coverage.info
+      --directory ${PROJECT_BINARY_DIR}
+      WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+      COMMENT "code coverage report by lcov")
+
+endif()
