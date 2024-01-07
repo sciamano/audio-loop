@@ -160,7 +160,8 @@ jobs:
       if: matrix.build-type == 'Debug'
       uses: coverallsapp/github-action@v2
       with:
-        path-to-lcov: ${{ env.BUILD_DIR }}/coverage.info
+        file: ${{ env.BUILD_DIR }}/coverage.info
+        format: lcov
     - name: release
       uses: softprops/action-gh-release@v1
       if: matrix.build-type == 'Release' && startsWith(github.ref, 'refs/tags/')
