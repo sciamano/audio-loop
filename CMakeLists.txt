@@ -134,6 +134,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
       COMMAND lcov
       --capture
+      --ignore-errors inconsistent
       --output-file coverage.info
       --directory ${PROJECT_BINARY_DIR}
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
