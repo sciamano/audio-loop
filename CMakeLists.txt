@@ -135,7 +135,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       COMMAND lcov
       --capture
       --ignore-errors inconsistent
+      --ignore-errors source
       --output-file coverage.info
+      --no-external
+      --base-directory ${PROJECT_SOURCE_DIR}
       --directory ${PROJECT_BINARY_DIR}
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
       COMMENT "code coverage report by lcov")
