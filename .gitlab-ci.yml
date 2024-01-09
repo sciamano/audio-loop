@@ -15,10 +15,10 @@ build:
     - apt-get --assume-yes --no-install-recommends install qt6-multimedia-dev
     - echo $CI_BUILDS_DIR
     - echo $CI_PROJECT_DIR
+    - echo $HOME
     - pwd
-    - ls
     - mkdir $HOME/build
-    - cd $HOMEbuild
+    - cd $HOME/build
     - pwd
     - cmake -DCMAKE_BUILD_TYPE=Debug $CI_PROJECT_DIR
     - make VERBOSE=1
@@ -26,5 +26,6 @@ build:
 test:
   stage: test
   script:
+    - pwd
     - export CTEST_OUTPUT_ON_FAILURE=1
     - ctest
