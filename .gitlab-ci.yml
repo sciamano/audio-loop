@@ -9,8 +9,10 @@ build:
   script:
     - apt-get -qq update
     - apt-get --assume-yes --no-install-recommends install cmake
-    - apt-get --assume-yes --no-install-recommends install make
     - apt-get --assume-yes --no-install-recommends install g++
+    - apt-get --assume-yes --no-install-recommends install gcovr
+    - apt-get --assume-yes --no-install-recommends install git
+    - apt-get --assume-yes --no-install-recommends install make
     - apt-get --assume-yes --no-install-recommends install qt6-base-dev
     - apt-get --assume-yes --no-install-recommends install qt6-multimedia-dev
     - echo $CI_BUILDS_DIR
