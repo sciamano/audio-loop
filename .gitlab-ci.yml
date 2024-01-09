@@ -1,0 +1,26 @@
+image: debian:testing
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - apt-get --assume-yes --no-install-recommends install cmake
+    - apt-get --assume-yes --no-install-recommends install make
+    - apt-get --assume-yes --no-install-recommends install g++
+    - apt-get --assume-yes --no-install-recommends install qt6-base-dev
+    - apt-get --assume-yes --no-install-recommends install qt6-multimedia-dev
+    - pwd
+    - ls
+    - mkdir $HOME/build
+    - cd $HOMEbuild
+    - cmake -DCMAKE_BUILD_TYPE=Debug ..
+    - make VERBOSE=1
+
+test:
+  stage: test
+  script:
+    - export CTEST_OUTPUT_ON_FAILURE=1
+    - ctest
