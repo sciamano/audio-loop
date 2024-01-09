@@ -13,11 +13,14 @@ build:
     - apt-get --assume-yes --no-install-recommends install g++
     - apt-get --assume-yes --no-install-recommends install qt6-base-dev
     - apt-get --assume-yes --no-install-recommends install qt6-multimedia-dev
+    - echo $CI_BUILDS_DIR
+    - echo $CI_PROJECT_DIR
     - pwd
     - ls
     - mkdir $HOME/build
     - cd $HOMEbuild
-    - cmake -DCMAKE_BUILD_TYPE=Debug ..
+    - pwd
+    - cmake -DCMAKE_BUILD_TYPE=Debug $CI_PROJECT_DIR
     - make VERBOSE=1
 
 test:
