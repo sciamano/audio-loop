@@ -155,9 +155,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/gcovr
       COMMAND gcovr
-      --xml coverage.xml
+      --cobertura coverage.xml
       --coveralls coverage.json
-      --exclude mytest.cpp
+      --exclude ".*mytest"
       --root ${PROJECT_SOURCE_DIR}
       --object-directory ${PROJECT_BINARY_DIR}
       WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
