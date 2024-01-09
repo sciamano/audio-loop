@@ -83,4 +83,7 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         file: ${{ env.BUILD_DIR }}/coverage.json
-
+    - name: Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ${{ env.BUILD_DIR }}/coverage.xml
