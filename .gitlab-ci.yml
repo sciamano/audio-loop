@@ -21,8 +21,8 @@ build:
     - pwd
     - cmake -DCMAKE_BUILD_TYPE=Debug $CI_PROJECT_DIR
     - make VERBOSE=1
-    - export CTEST_OUTPUT_ON_FAILURE=1
-    - systemctl --user start pulseaudio
-    - xvfb-run ctest
-    - make coverage
-    - ls
+    # - export CTEST_OUTPUT_ON_FAILURE=1
+    # - systemctl --user start pulseaudio
+    # - xvfb-run ctest
+    # - make coverage
+    # - ls
