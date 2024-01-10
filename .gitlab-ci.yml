@@ -1,11 +1,6 @@
 image: debian:testing
 
-stages:
-  - build
-  - test
-
 build:
-  stage: build
   script:
     - apt-get -qq update
     - apt-get --assume-yes --no-install-recommends install cmake
@@ -24,10 +19,7 @@ build:
     - pwd
     - cmake -DCMAKE_BUILD_TYPE=Debug $CI_PROJECT_DIR
     - make VERBOSE=1
-
-test:
-  stage: test
-  script:
-    - pwd
     - export CTEST_OUTPUT_ON_FAILURE=1
     - ctest
+    - make coverage
+    - ls
