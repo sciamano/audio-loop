@@ -87,3 +87,28 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         files: ${{ env.BUILD_DIR }}/coverage.xml
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: build deps
+      run: |
+        pwd
+        sudo apt-get -qq update
+        sudo apt-get install --assume-yes python3-coverage
+    - name: coverage
+      run: |
+        pwd
+        cd python
+        python3-coverage run --source . -m unittest tests.py
+        python3-coverage json
+        python3-coverage xml
+    - name: Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        file: python/coverage.json
+    - name: Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: python/coverage.xml
