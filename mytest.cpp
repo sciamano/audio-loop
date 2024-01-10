@@ -9,6 +9,7 @@ class TestTrack : public QObject
 private slots:
   void initTestCase();
   void bufferSizeTest();
+  void readDataTest();
   void trackPlayPauseTest();
 
 private:
@@ -23,6 +24,14 @@ void TestTrack::initTestCase()
     file_name.append(QFileInfo(file).fileName());
     file_name = QDir::cleanPath(base_dir.absoluteFilePath(file_name));
     QVERIFY(file.copy(file_name));
+}
+
+void TestTrack::readDataTest()
+{
+  auto* buffer = new LoopBuffer(this);
+  QByteArray dest;
+  const auto len = buffer->readData(dest.data(), 0);
+  QCOMPARE(len, 0);
 }
 
 void TestTrack::bufferSizeTest()
