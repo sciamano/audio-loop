@@ -102,12 +102,11 @@ jobs:
         pwd
         cd python
         python3-coverage run --source . -m unittest tests.py
-        python3-coverage json
         python3-coverage xml
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:
-        file: python/coverage.json
+        file: python/coverage.xml
     - name: Codecov
       uses: codecov/codecov-action@v3
       with:
