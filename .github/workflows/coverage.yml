@@ -86,28 +86,41 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v3
       with:
+        parallel: true
+        flag-name: cpp-test
         files: ${{ env.BUILD_DIR }}/coverage.xml
 
-  # python:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: build deps
-  #     run: |
-  #       pwd
-  #       sudo apt-get -qq update
-  #       sudo apt-get install --assume-yes python3-coverage
-  #   - name: coverage
-  #     run: |
-  #       pwd
-  #       cd python
-  #       python3-coverage run --source . -m unittest tests.py
-  #       python3-coverage xml
-  #   - name: Coveralls
-  #     uses: coverallsapp/github-action@v2
-  #     with:
-  #       file: python/coverage.xml
-  #   - name: Codecov
-  #     uses: codecov/codecov-action@v3
-  #     with:
-  #       files: python/coverage.xml
+  python:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: build deps
+      run: |
+        pwd
+        sudo apt-get -qq update
+        sudo apt-get install --assume-yes python3-coverage
+    - name: coverage
+      run: |
+        pwd
+        export PYTHONPATH=./python/:$PYTHONPATH
+        python3-coverage run --source . -m unittest python/tests.py
+        python3-coverage xml
+    - name: Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel: true
+        flag-name: python-test
+        file: python/coverage.xml
+    - name: Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: python/coverage.xml
+
+  finish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Close parallel build
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel-finished: true
+        carryforward: "cpp-test,python-test"
