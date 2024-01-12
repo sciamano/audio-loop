@@ -10,7 +10,7 @@ defaults:
     shell: bash
 
 jobs:
-  linux:
+  app:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -110,13 +110,14 @@ jobs:
       with:
         parallel: true
         flag-name: python-test
-        file: python/coverage.xml
+        file: coverage.xml
     - name: Codecov
       uses: codecov/codecov-action@v3
       with:
         files: python/coverage.xml
 
   finish:
+    needs: [app, python]
     runs-on: ubuntu-latest
     steps:
     - name: Close parallel build
