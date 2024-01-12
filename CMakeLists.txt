@@ -22,11 +22,11 @@ set(CMAKE_AUTORCC ON)
 message(STATUS "system name: ${CMAKE_SYSTEM_NAME}")
 
 qt_add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE
-  main.cpp
-  mainwindow.cpp
-  mainwindow.h
-  track.cpp
-  track.h
+  app/main.cpp
+  app/mainwindow.cpp
+  app/mainwindow.h
+  app/track.cpp
+  app/track.h
 )
 
 target_link_libraries(${APP_NAME} PUBLIC
@@ -107,9 +107,9 @@ endif()
 
 enable_testing(true)
 add_executable(mytest
-  mytest.cpp
-  track.cpp
-  test.qrc
+  app/mytest.cpp
+  app/track.cpp
+  app/test.qrc
 )
 add_test(NAME mytest COMMAND mytest)
 
