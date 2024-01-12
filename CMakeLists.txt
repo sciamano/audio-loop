@@ -156,7 +156,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
       COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/gcovr
       COMMAND gcovr
       --xml coverage.xml
+      --xml-pretty
       --coveralls coverage.json
+      --coveralls-pretty
       --exclude ".*mytest"
       --root ${PROJECT_SOURCE_DIR}
       --object-directory ${PROJECT_BINARY_DIR}
