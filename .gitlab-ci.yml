@@ -21,9 +21,14 @@ build:
     - cd $HOME/build
     - pwd
     - cmake -DCMAKE_BUILD_TYPE=Debug $CI_PROJECT_DIR
-    - make VERBOSE=1
+    #- make VERBOSE=1
     - export CTEST_OUTPUT_ON_FAILURE=1
-    - pulseaudio --system --start
+    - pulseaudio --system --daemonize
+    - pactl list short sinks
+    - pactl load-module module-null-sink sink_name=Virtual_Sink
+    - pactl list short sinks
+    - pactl set-default-sink Virtual_Sink
+    - pactl list short sinks
     - xvfb-run ctest
     - make coverage
     - ls
