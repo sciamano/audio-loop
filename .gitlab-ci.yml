@@ -12,6 +12,7 @@ build:
     - apt-get --assume-yes --no-install-recommends install qt6-base-dev
     - apt-get --assume-yes --no-install-recommends install qt6-multimedia-dev
     - apt-get --assume-yes --no-install-recommends install xvfb
+    - apt-get --assume-yes --no-install-recommends install xauth
     - echo $CI_BUILDS_DIR
     - echo $CI_PROJECT_DIR
     - echo $HOME
@@ -22,7 +23,7 @@ build:
     - cmake -DCMAKE_BUILD_TYPE=Debug $CI_PROJECT_DIR
     - make VERBOSE=1
     - export CTEST_OUTPUT_ON_FAILURE=1
-    - pulseaudio --start
+    - pulseaudio --system --start
     - xvfb-run ctest
     - make coverage
     - ls
