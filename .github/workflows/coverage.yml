@@ -18,7 +18,7 @@ jobs:
         qt-version: ['6.6.1']
         build-type: [Debug]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: install aqt
       run: |
         pip3 install aqtinstall
@@ -93,7 +93,7 @@ jobs:
   python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: build deps
       run: |
         pwd
