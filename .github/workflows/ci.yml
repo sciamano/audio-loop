@@ -78,7 +78,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        name: $GITHUB_JOB
+        name: ${{ env.GITHUB_JOB }}
         path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: release
       uses: softprops/action-gh-release@v1
@@ -153,7 +153,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        name: $GITHUB_JOB
+        name: ${{ env.GITHUB_JOB }}
         path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: test
       run: |
@@ -239,7 +239,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
-        name: $GITHUB_JOB
+        name: ${{ env.GITHUB_JOB }}
         path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: release
       uses: softprops/action-gh-release@v1
