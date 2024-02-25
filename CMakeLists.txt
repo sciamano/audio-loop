@@ -94,7 +94,7 @@ if(USE_DEPLOY)
 endif()
 
 install(FILES
-  "${PROJECT_SOURCE_DIR}/tone.wav"
+  "${PROJECT_SOURCE_DIR}/app/tone.wav"
   TYPE DATA)
 
 install(FILES

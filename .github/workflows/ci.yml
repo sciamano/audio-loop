@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.6.1']
+        qt-version: ['6.6.2']
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
@@ -78,6 +78,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
+        name: $GITHUB_JOB
         path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: release
       uses: softprops/action-gh-release@v1
@@ -107,8 +108,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.6.1']
-        build-type: [Release, Debug]
+        qt-version: ['6.6.2']
+        build-type: [Release]
     steps:
     - uses: actions/checkout@v3
     - name: install aqt
@@ -152,6 +153,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
+        name: $GITHUB_JOB
         path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: test
       run: |
@@ -181,7 +183,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.6.1']
+        qt-version: ['6.6.2']
         build-type: [Release]
     steps:
     - uses: actions/checkout@v3
@@ -237,6 +239,7 @@ jobs:
     - name: upload artefacts
       uses: actions/upload-artifact@v3
       with:
+        name: $GITHUB_JOB
         path: ${{ env.BUILD_DIR }}/audio-loop-*
     - name: release
       uses: softprops/action-gh-release@v1
