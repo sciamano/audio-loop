@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.2 COMPONENTS
+  LinguistTools
   Multimedia
   Test
   Widgets
@@ -27,6 +28,11 @@ target_link_libraries(${APP_NAME} PUBLIC
   Qt::Multimedia
   Qt::Widgets
 )
+
+qt_add_translations(${APP_NAME} TS_FILES
+  translations/${APP_NAME}_ru.ts
+)
+add_dependencies(${APP_NAME} ${APP_NAME}_lupdate)
 
 # if(MSVC)
 #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8 /Zc:__cplusplus /std:c++latest /permissive-")

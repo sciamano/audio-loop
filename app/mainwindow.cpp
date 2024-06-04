@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget* parent) :
   layout->addWidget(continue_button, 0, Qt::AlignmentFlag::AlignLeft);
   connect(continue_button, &QPushButton::clicked, track, &Track::continuePlay);
 
-  auto platform = new QLabel(QString("Platform: %1").arg(qApp->platformName()));
+  auto platform = new QLabel(tr("Platform: %1").arg(qApp->platformName()));
   layout->addWidget(platform, 0, Qt::AlignmentFlag::AlignLeft);
 
   setCentralWidget(widget);
