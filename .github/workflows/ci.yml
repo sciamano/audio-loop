@@ -116,7 +116,8 @@ jobs:
       run: |
         echo $GITHUB_JOB
         echo ${{ vars.JOB_NAME }}
-        pip3 install aqtinstall==2.2.3
+        brew install pipx
+        pipx install aqtinstall==2.2.3
     - name: install tools
       run: |
         brew install lcov
