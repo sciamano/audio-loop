@@ -74,7 +74,7 @@ jobs:
       run: |
         pwd
         systemctl --user start pulseaudio
-        xvfb-run ctest --output-on-failure --test-dir $BUILD_DIR
+        xvfb-run ctest --output-on-failure --test-dir $BUILD_DIR/app
     - name: coverage
       run: |
         pwd
