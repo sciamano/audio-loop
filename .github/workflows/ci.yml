@@ -26,7 +26,7 @@ jobs:
       run: |
         echo $GITHUB_JOB
         echo ${{ vars.JOB_NAME }}
-        pip3 install
+        pip3 install aqtinstall
     - name: install build tools
       run: |
         O_DIR=$HOME/Qt
