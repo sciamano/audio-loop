@@ -19,14 +19,14 @@ jobs:
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       # with:
       #   fetch-depth: 0
     - name: install aqt
       run: |
         echo $GITHUB_JOB
         echo ${{ vars.JOB_NAME }}
-        pip3 install aqtinstall==2.2.3
+        pip3 install
     - name: install build tools
       run: |
         O_DIR=$HOME/Qt
@@ -76,7 +76,7 @@ jobs:
         cmake --build $BUILD_DIR --target package
         ls -la $BUILD_DIR
     - name: upload artefacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: win
         path: ${{ env.BUILD_DIR }}/audio-loop-*
@@ -111,13 +111,12 @@ jobs:
         qt-version: ['6.6.2']
         build-type: [Release]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: install aqt
       run: |
         echo $GITHUB_JOB
         echo ${{ vars.JOB_NAME }}
-        brew install pipx
-        pipx install aqtinstall==2.2.3
+        pipx install aqtinstall
     - name: install tools
       run: |
         brew install lcov
@@ -152,7 +151,7 @@ jobs:
         cmake --build $BUILD_DIR --target package
         ls -la $BUILD_DIR
     - name: upload artefacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: mac
         path: ${{ env.BUILD_DIR }}/audio-loop-*
@@ -180,19 +179,19 @@ jobs:
         files: ${{ env.BUILD_DIR }}/audio-loop-*
 
   linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         qt-version: ['6.6.2']
         build-type: [Release]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: install aqt
       run: |
         echo $GITHUB_JOB
         echo ${{ vars.JOB_NAME }}
-        pip3 install aqtinstall==2.2.3
+        pip3 install aqtinstall
     - name: install Qt
       run: |
         O_DIR=$HOME/Qt
@@ -238,7 +237,7 @@ jobs:
         cmake --build $BUILD_DIR --target package
         ls -la $BUILD_DIR
     - name: upload artefacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: lin
         path: ${{ env.BUILD_DIR }}/audio-loop-*
