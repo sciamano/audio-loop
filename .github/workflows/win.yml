@@ -1,0 +1,104 @@
+name: win
+
+on: [push, pull_request]
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        qt-version: ['6.6.3']
+        qt-arch: [win64_mingw]
+        build-type: [Release]
+    steps:
+    - uses: actions/checkout@v4
+      # with:
+      #   fetch-depth: 0
+    - name: install aqt
+      run: |
+        echo $GITHUB_JOB
+        echo ${{ vars.JOB_NAME }}
+        pip3 install aqtinstall
+    - name: install build tools
+      run: |
+        O_DIR=$HOME/Qt
+        echo "O_DIR=$O_DIR" >>$GITHUB_ENV
+        #
+        aqt list-tool windows desktop
+        aqt install-tool windows desktop tools_cmake -O $O_DIR
+        CMake_BIN=$O_DIR/Tools/CMake_64/bin
+        echo "CMake_BIN=$CMake_BIN" >>$GITHUB_ENV
+        #
+        aqt install-tool windows desktop tools_ninja -O $O_DIR
+        Ninja_BIN=$O_DIR/Tools/Ninja
+        echo "Ninja_BIN=$Ninja_BIN" >>$GITHUB_ENV
+    - name: install Qt
+      run: |
+        aqt list-qt windows desktop
+        aqt list-qt windows desktop --arch latest
+        aqt install-qt windows desktop ${{ matrix.qt-version }} ${{ matrix.qt-arch }} -m qtmultimedia -O $O_DIR
+    - name: Qt dir
+      run: |
+        Qt6_QMAKE=`find $O_DIR -name "qmake6*"`
+        echo $Qt6_QMAKE
+        Qt6_BINDIR=`dirname $Qt6_QMAKE`
+        echo $Qt6_BINDIR
+        Qt6_DIR=`dirname $Qt6_BINDIR`
+        echo $Qt6_DIR
+        QT_PLUGIN_PATH=$Qt6_DIR/plugins
+        QML2_IMPORT_PATH=$Qt6_DIR/qml
+        echo "Qt6_DIR=$Qt6_DIR" >>$GITHUB_ENV
+        echo "Qt6_BINDIR=$Qt6_BINDIR" >>$GITHUB_ENV
+        echo "QT_PLUGIN_PATH=$QT_PLUGIN_PATH" >>$GITHUB_ENV
+        echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
+    - name: install MinGW
+      run: |
+        aqt install-tool windows desktop tools_mingw90 -O $O_DIR
+        MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
+        echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
+    - name: configure
+      run: |
+        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        BUILD_DIR=build
+        echo "BUILD_DIR=$BUILD_DIR" >>$GITHUB_ENV
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B $BUILD_DIR -DUSE_DEPLOY=ON
+    - name: build
+      run: |
+        PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        cmake --build $BUILD_DIR --target package
+        ls -la $BUILD_DIR
+    - name: upload artefacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: win
+        path: ${{ env.BUILD_DIR }}/audio-loop-*
+    - name: release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        files: ${{ env.BUILD_DIR }}/audio-loop-*
+    - name: vbcable
+      run: |
+        git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
+        powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
+        net start audiosrv
+    - name: test
+      run: |
+        PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        export QT_DEBUG_PLUGINS=1
+        ctest --output-on-failure --test-dir build/
+    # - name: test output
+    #   if: always()
+    #   run: cat test.out
