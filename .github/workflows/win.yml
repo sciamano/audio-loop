@@ -61,7 +61,7 @@ jobs:
         echo "QML2_IMPORT_PATH=$QML2_IMPORT_PATH" >>$GITHUB_ENV
     - name: install MinGW
       run: |
-        aqt install-tool windows desktop tools_mingw1310 -O $O_DIR
+        aqt install-tool windows desktop tools_mingw90 -O $O_DIR
         MinGW_BIN=$O_DIR/Tools/mingw1120_64/bin
         echo "MinGW_BIN=$MinGW_BIN" >>$GITHUB_ENV
     - name: configure
