@@ -69,7 +69,7 @@ jobs:
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         BUILD_DIR=build
         echo "BUILD_DIR=$BUILD_DIR" >>$GITHUB_ENV
-        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -B $BUILD_DIR -DUSE_DEPLOY=ON
+        cmake -DCMAKE_PREFIX_PATH=$Qt6_DIR -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} -GNinja -B $BUILD_DIR -DUSE_DEPLOY=ON
     - name: build
       run: |
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
