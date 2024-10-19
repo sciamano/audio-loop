@@ -11,9 +11,12 @@ build:
     - apt-get --assume-yes --no-install-recommends install pipewire
     - apt-get --assume-yes --no-install-recommends install pipewire-pulse
     - apt-get --assume-yes --no-install-recommends install qt6-base-dev
+    - apt-get --assume-yes --no-install-recommends install qt6-l10n-tools
     - apt-get --assume-yes --no-install-recommends install qt6-multimedia-dev
-    - apt-get --assume-yes --no-install-recommends install xvfb
+    - apt-get --assume-yes --no-install-recommends install qt6-tools-dev
+    - apt-get --assume-yes --no-install-recommends install qt6-tools-dev-tools
     - apt-get --assume-yes --no-install-recommends install xauth
+    - apt-get --assume-yes --no-install-recommends install xvfb
     - echo $CI_BUILDS_DIR
     - echo $CI_PROJECT_DIR
     - echo $HOME
