@@ -12,7 +12,6 @@ find_package(Qt6 6.2 COMPONENTS
 message(STATUS "Using Qt ${Qt6_VERSION} from ${Qt6_DIR}")
 
 qt_standard_project_setup()
-set(CMAKE_AUTORCC ON)
 
 message(STATUS "system name: ${CMAKE_SYSTEM_NAME}")
 
@@ -32,7 +31,6 @@ target_link_libraries(${APP_NAME} PUBLIC
 qt_add_translations(${APP_NAME} TS_FILES
   translations/${APP_NAME}_ru.ts
 )
-add_dependencies(${APP_NAME} ${APP_NAME}_lupdate)
 
 # if(MSVC)
 #   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8 /Zc:__cplusplus /std:c++latest /permissive-")
