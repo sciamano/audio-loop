@@ -105,6 +105,10 @@ add_executable(mytest
   track.cpp
   test.qrc
 )
+qt_add_resources(mytest test_resources
+  PREFIX "/"
+  FILES tone.wav
+)
 add_test(NAME mytest COMMAND mytest)
 
 target_link_libraries(mytest PRIVATE
