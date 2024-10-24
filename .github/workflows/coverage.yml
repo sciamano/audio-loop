@@ -84,7 +84,7 @@ jobs:
       with:
         file: ${{ env.BUILD_DIR }}/coverage.json
     - name: Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         parallel: true
         flag-name: cpp-test
@@ -112,7 +112,7 @@ jobs:
         flag-name: python-test
         file: coverage.xml
     - name: Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         files: coverage.xml
 
