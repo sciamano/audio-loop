@@ -153,6 +153,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_custom_command(TARGET ${CTEST_COVERAGE_TARGET} POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/gcovr
       COMMAND gcovr
+      --html --html-details
+      --output ${PROJECT_BINARY_DIR}/gcovr/index.html
       --xml coverage.xml
       --xml-pretty
       --coveralls coverage.json

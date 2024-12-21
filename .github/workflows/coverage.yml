@@ -79,6 +79,11 @@ jobs:
       run: |
         pwd
         cmake --build $BUILD_DIR --target coverage
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+       path: $BUILD_DIR/gcovr
+
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:
@@ -105,6 +110,11 @@ jobs:
         export PYTHONPATH=./python/:$PYTHONPATH
         python3-coverage run --source . -m unittest python/tests.py
         python3-coverage xml
+        python3-coverage html
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+       path: htmlcov
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:
@@ -125,3 +135,23 @@ jobs:
       with:
         parallel-finished: true
         carryforward: "cpp-test,python-test"
+
+  deploy:
+    needs: [app, python]
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'gh-pages'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
