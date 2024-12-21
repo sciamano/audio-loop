@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.8']
+        qt-version: ['6']
         build-type: [Release]
     steps:
     - uses: actions/checkout@v4
@@ -65,16 +65,6 @@ jobs:
     - name: test
       run: |
         ctest --output-on-failure --test-dir $BUILD_DIR
-    - name: coverage
-      if: matrix.build-type == 'Debug'
-      run: |
-        cmake --build $BUILD_DIR/app --target coverage
-    - name: Coveralls
-      if: matrix.build-type == 'Debug'
-      uses: coverallsapp/github-action@v2
-      with:
-        file: ${{ env.BUILD_DIR }}/coverage.info
-        format: lcov
     - name: release
       uses: softprops/action-gh-release@v2
       if: matrix.build-type == 'Release' && startsWith(github.ref, 'refs/tags/')

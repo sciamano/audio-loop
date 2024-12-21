@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        qt-version: ['6.8']
+        qt-version: ['6']
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
@@ -73,21 +73,18 @@ jobs:
         PATH=$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
         cmake --build $BUILD_DIR --target package
         ls -la $BUILD_DIR
-    - name: vbcable
-      run: |
-        git clone https://github.com/LABSN/sound-ci-helpers $HOME/sound-ci-helpers
-        powershell $HOME/sound-ci-helpers/windows/setup_sound.ps1
-        net start audiosrv
-    - name: test
-      run: |
-        PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
-        export QT_DEBUG_PLUGINS=1
-        ctest --output-on-failure --test-dir build/app
     - name: upload artefacts
       uses: actions/upload-artifact@v4
       with:
         name: win
         path: ${{ env.BUILD_DIR }}/audio-loop-*
+    - name: vbcable
+      uses: LABSN/sound-ci-helpers@v1
+    - name: test
+      run: |
+        PATH=$Qt6_BINDIR:$MinGW_BIN:$CMake_BIN:$Ninja_BIN:$PATH
+        export QT_DEBUG_PLUGINS=1
+        ctest --output-on-failure --test-dir build/app
     - name: release
       uses: softprops/action-gh-release@v2
       if: matrix.build-type == 'Release' && startsWith(github.ref, 'refs/tags/')
