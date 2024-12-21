@@ -82,7 +82,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-       path: $BUILD_DIR/gcovr
+       path: ${{ env.BUILD_DIR }}/gcovr
 
     - name: Coveralls
       uses: coverallsapp/github-action@v2
