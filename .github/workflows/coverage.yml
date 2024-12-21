@@ -82,7 +82,8 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-       path: ${{ env.BUILD_DIR }}/gcovr
+        name: cpp-coverage
+        path: ${{ env.BUILD_DIR }}/gcovr
 
     - name: Coveralls
       uses: coverallsapp/github-action@v2
@@ -114,6 +115,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
+       name: python-coverage
        path: htmlcov
     - name: Coveralls
       uses: coverallsapp/github-action@v2
