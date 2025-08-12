@@ -21,7 +21,7 @@ jobs:
         qt-version: ['6.6.1']
         build-type: [Debug]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: install aqt
       run: |
         pip3 install aqtinstall
@@ -102,7 +102,7 @@ jobs:
   python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: build deps
       run: |
         pwd
@@ -149,7 +149,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

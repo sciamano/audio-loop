@@ -18,7 +18,7 @@ jobs:
         qt-version: ['6']
         build-type: [Release]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: install aqt
       run: |
         echo $GITHUB_JOB
