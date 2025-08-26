@@ -83,7 +83,7 @@ jobs:
         pwd
         cmake --build $BUILD_DIR --target coverage
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         name: cpp-coverage
         path: ${{ env.BUILD_DIR }}/gcovr
@@ -116,7 +116,7 @@ jobs:
         python3-coverage xml
         python3-coverage html
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
        name: python-coverage
        path: htmlcov
@@ -153,7 +153,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: 'gh-pages'
       - name: Deploy to GitHub Pages
