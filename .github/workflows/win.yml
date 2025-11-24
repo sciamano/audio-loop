@@ -19,7 +19,7 @@ jobs:
         qt-arch: [win64_mingw]
         build-type: [Release]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: install aqt
       run: |
         echo $GITHUB_JOB
